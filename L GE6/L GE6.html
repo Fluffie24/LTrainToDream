@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L · GE2026</title>
+<meta name="description" content="หน้ารวมข้อมูล GE2026 ของ แอล-สิริกร นิลกษาปน์ (BNK48 Team NV) นับถอยหลัง โดเนท เพลงที่เลือก และอันดับผู้สนับสนุน">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐈‍⬛</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff7f9; --bg2:#fdeef3; --card:#ffffff;
+  --rose:#d23c6d; --rose-deep:#8e1d49; --ink:#5c1a33; --muted:#a06b80;
+  --gold:#c9a24b; --line:#f6d8e2; --soft:#fde8ee;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{font-family:'Prompt',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+h1,h2,h3,.mali{font-family:'Mali',cursive}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* ---------- falling petals ---------- */
+#petals{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#petals span{position:absolute;top:-6vh;animation:fall linear infinite;opacity:.7}
+@keyframes fall{to{transform:translateY(115vh) rotate(360deg)}}
+
+/* ---------- header ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,247,249,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1180px;margin:auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.logo{font-family:'Mali';font-weight:700;font-size:22px;color:var(--rose-deep);line-height:1}
+.logo span{color:var(--rose)}
+.logo small{display:block;font-family:'Prompt';font-weight:600;font-size:9.5px;letter-spacing:2.2px;color:var(--muted);margin-top:4px}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{font-size:13.5px;font-weight:600;color:var(--rose-deep);padding:8px 13px;border-radius:999px;transition:.25s}
+nav a:hover{background:var(--soft);color:var(--rose)}
+
+main{position:relative;z-index:1}
+section{max-width:1180px;margin:auto;padding:70px 22px 30px}
+.sec-head{text-align:center;margin-bottom:34px}
+.sec-head h2{font-size:clamp(28px,4vw,42px);font-weight:700;color:var(--rose-deep)}
+.sec-head p{font-family:'Prompt';font-weight:600;font-size:12px;letter-spacing:2.5px;color:var(--rose);margin-top:6px;text-transform:uppercase}
+.badge{display:inline-block;background:var(--soft);color:var(--rose);border:1px dashed var(--rose);font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px;margin-top:10px}
+
+/* ---------- hero ---------- */
+.hero{padding-top:56px}
+.hero-in{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero-tag{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:12.5px;font-weight:600;color:var(--rose-deep);box-shadow:0 4px 14px rgba(210,60,109,.08)}
+.hero h1{font-size:clamp(38px,5.4vw,64px);line-height:1.25;color:var(--rose-deep);margin:34px 0 14px}
+.hero h1 .hl{color:var(--rose);position:relative;white-space:nowrap}
+.hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:12px;background:var(--soft);z-index:-1;border-radius:6px}
+.hero-sub{font-size:15.5px;line-height:1.9;color:var(--muted);font-weight:500}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 10px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 26px;font-family:'Prompt';font-weight:700;font-size:14.5px;cursor:pointer;transition:.25s;border:none}
+.btn-primary{background:linear-gradient(135deg,var(--rose),#b02458);color:#fff;box-shadow:0 10px 24px rgba(210,60,109,.35)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(210,60,109,.45)}
+.btn-ghost{background:#fff;color:var(--rose-deep);border:1px solid var(--line);box-shadow:0 4px 14px rgba(210,60,109,.08)}
+.btn-ghost:hover{background:var(--soft)}
+.hint{font-size:12px;color:var(--muted)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;color:var(--rose-deep)}
+.hero-right{display:flex;justify-content:center}
+.poster{position:relative;transform:rotate(2deg);background:#fff;padding:12px 12px 0;border-radius:20px;box-shadow:0 24px 60px rgba(142,29,73,.18);max-width:400px;width:100%}
+.poster img{border-radius:12px;aspect-ratio:1108/1477;object-fit:cover;width:100%}
+.poster figcaption{font-size:11px;color:var(--muted);text-align:center;padding:10px 6px}
+.stck{position:absolute;font-size:22px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.15))}
+
+/* ---------- countdown ---------- */
+.cd-card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:40px 26px;text-align:center;box-shadow:0 18px 50px rgba(142,29,73,.08)}
+.cd-title{font-family:'Mali';font-size:clamp(22px,3vw,30px);font-weight:700;color:var(--rose-deep)}
+.cd-title .live{color:#fff;background:var(--rose);border-radius:999px;font-size:13px;padding:4px 14px;vertical-align:middle;margin-left:8px;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.cd-grid{display:flex;justify-content:center;gap:14px;margin:26px 0 14px;flex-wrap:wrap}
+.cd-unit{background:linear-gradient(180deg,#fff,var(--soft));border:1px solid var(--line);border-radius:18px;min-width:96px;padding:18px 10px 14px;box-shadow:inset 0 -4px 0 rgba(210,60,109,.12)}
+.cd-unit b{display:block;font-size:clamp(34px,5vw,50px);font-weight:800;color:var(--rose-deep);font-variant-numeric:tabular-nums;line-height:1}
+.cd-unit span{font-size:12px;font-weight:600;color:var(--muted)}
+.cd-sub{font-size:14px;color:var(--muted);font-weight:500}
+.cd-ended{font-size:clamp(18px,2.6vw,24px);font-weight:700;color:var(--rose-deep);padding:26px 0 8px;line-height:1.8}
+.timeline{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:28px}
+.t-chip{border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--muted);transition:.4s}
+.t-chip.active{background:linear-gradient(135deg,var(--rose),#b02458);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(210,60,109,.3)}
+.t-chip.done{opacity:.55;text-decoration:line-through}
+.howto{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:22px;font-size:12.5px;color:var(--rose-deep);font-weight:600}
+.howto div{background:var(--bg2);border-radius:12px;padding:8px 14px}
+
+/* ---------- donate ---------- */
+.total-card{background:linear-gradient(135deg,var(--rose),#a1134e);border-radius:26px;color:#fff;text-align:center;padding:38px 24px;box-shadow:0 20px 50px rgba(161,19,78,.35)}
+.total-card small{font-size:13px;font-weight:600;letter-spacing:2px;opacity:.85}
+.total-num{font-size:clamp(40px,6vw,64px);font-weight:800;line-height:1.15;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.total-note{font-size:12px;opacity:.8}
+.boards{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px;margin-top:22px}
+.board{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:.25s}
+.board:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(210,60,109,.12)}
+.board .b-name{font-weight:600;font-size:14px;color:var(--ink)}
+.board .b-amt{font-weight:800;font-size:15px;color:var(--rose);white-space:nowrap}
+.board.first{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.small-note{text-align:center;font-size:12px;color:var(--muted);margin-top:16px}
+
+/* ---------- songs ---------- */
+.songs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.song{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:.3s;position:relative}
+.song:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(210,60,109,.16)}
+.song .rank{position:absolute;top:12px;left:12px;z-index:2;background:linear-gradient(135deg,var(--rose),#a1134e);color:#fff;font-weight:800;font-size:13px;border-radius:999px;padding:6px 14px;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+.song img{aspect-ratio:16/9;object-fit:cover;width:100%}
+.song-body{padding:18px 20px 20px}
+.song-body h3{font-size:17px;color:var(--rose-deep);line-height:1.4}
+.song-body p{font-size:12.5px;color:var(--muted);font-weight:600;margin:4px 0 14px}
+.song .btn{padding:9px 18px;font-size:13px}
+
+/* ---------- tweet ---------- */
+.tweet-card{max-width:640px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 16px 44px rgba(142,29,73,.1)}
+.tweet-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.tweet-head .ava{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#111,#333);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px;font-family:'Mali'}
+.tweet-head b{display:block;font-size:14.5px}
+.tweet-head span{font-size:12px;color:var(--muted)}
+.tweet-text{font-size:14px;line-height:1.9;white-space:pre-line;color:var(--ink)}
+.tweet-text .tag{color:#1d9bf0}
+.tweet-img{border-radius:14px;margin:16px 0;border:1px solid var(--line)}
+.tweet-card .btn{width:100%;justify-content:center}
+
+/* ---------- supporters ---------- */
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:end;max-width:900px;margin:0 auto 40px}
+.p-card{text-align:center;position:relative}
+.p-card.p1{transform:translateY(-24px);z-index:2}
+.ava-wrap{position:relative;width:140px;height:140px;margin:0 auto 24px;border-radius:50%;padding:6px;box-shadow:0 14px 34px rgba(142,29,73,.15);transition:.3s}
+.p1 .ava-wrap{width:180px;height:180px;padding:8px}
+.ava-wrap.r1{background:linear-gradient(135deg,#f6d365,#fda085)}
+.ava-wrap.r2{background:linear-gradient(135deg,#e2ebf0,#cfd9df)}
+.ava-wrap.r3{background:linear-gradient(135deg,#ffecd2,#fcb69f)}
+.ava-img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid #fff;background:#fff}
+.rank-badge{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;border:4px solid #fff;display:grid;place-items:center;font-weight:800;font-family:'Prompt';font-size:18px;color:#fff;box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.p1 .rank-badge{width:52px;height:52px;font-size:24px;bottom:-16px}
+.r1 .rank-badge{background:linear-gradient(135deg,#f6d365,#ffb347)}
+.r2 .rank-badge{background:linear-gradient(135deg,#b5c6e0,#a0b4cc)}
+.r3 .rank-badge{background:linear-gradient(135deg,#f2a6a6,#e08b8b)}
+.p-body{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px 16px 22px;box-shadow:0 12px 30px rgba(142,29,73,.08)}
+.p-body h3{font-size:19px;color:var(--rose-deep)}
+.p-body .cnt{font-size:13.5px;color:var(--muted);font-weight:600;margin:6px 0 16px}
+.s-table{max-width:900px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 34px rgba(142,29,73,.07)}
+.s-row{display:grid;grid-template-columns:56px 1fr 110px;align-items:center;padding:15px 22px;border-top:1px solid var(--bg2);font-size:14.5px}
+.s-row.head{background:var(--bg2);font-weight:700;color:var(--rose-deep);font-size:13px}
+.s-row .no{color:var(--muted);font-weight:600}
+.s-row .nm{font-weight:600;display:flex;align-items:center;gap:10px}
+.s-row .nm em{font-style:normal;font-size:15px}
+.s-row .nm img{width:30px;height:30px;border-radius:50%;object-fit:cover;background:var(--bg2)}
+.p-ava{width:54px;height:54px;border-radius:50%;object-fit:cover;margin:0 auto 8px;display:block;background:var(--bg2)}
+.s-row .ct{text-align:right;font-weight:800;color:var(--rose-deep)}
+
+/* ---------- profile / contact ---------- */
+.p-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.p-info{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center}
+.p-info .ic{font-size:26px}
+.p-info h4{font-family:'Mali';font-size:14px;color:var(--muted);margin:8px 0 4px;font-weight:600}
+.p-info p{font-weight:700;color:var(--rose-deep);font-size:15px;line-height:1.6}
+.quote{margin-top:18px;background:var(--soft);border-radius:20px;padding:26px;text-align:center;font-family:'Mali';font-size:clamp(16px,2.4vw,21px);font-weight:600;color:var(--rose-deep);line-height:1.9}
+.c-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.c-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center;transition:.25s}
+.c-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(210,60,109,.14)}
+.c-card .ic{font-size:28px}
+.c-card h4{font-family:'Mali';font-size:16px;color:var(--rose-deep);margin:10px 0 4px}
+.c-card p{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.7}
+.c-card a{color:var(--rose);font-weight:700;font-size:13px}
+
+footer{margin-top:70px;background:var(--bg2);border-top:1px solid var(--line);padding:34px 22px;text-align:center;position:relative;z-index:1}
+footer p{font-size:12px;color:var(--muted);line-height:2}
+footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:15px}
+
+.reveal{opacity:0;transform:translateY(26px);transition:.8s ease}
+.reveal.on{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .hero-in{grid-template-columns:1fr}
+  .poster{max-width:340px;margin:auto}
+  .podium{grid-template-columns:1fr;gap:34px}
+  .p-card.p1{transform:none}
+}
+</style>
+</head>
+<body>
+<div id="petals" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="logo">L<span>·GE2026</span><small>L TRAIN TO DREAM</small></div>
+    <nav>
+      <a href="#countdown">นับถอยหลัง</a>
+      <a href="#songs">เพลงที่เลือก</a>
+      <a href="#donate">ยอดโดเนท</a>
+      <a href="#supporters">ผู้สนับสนุน</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-in">
+    <div class="reveal on">
+      <div class="hero-tag">🗳️ BNK48 &amp; CGM48 Senbatsu General Election 2026</div>
+      <h1>ร่วมส่งแอลสู่<span class="hl">อันดับที่ 4</span></h1>
+      <p class="hero-sub">ทุกโหวตสามารถพาแอลเข้าใกล้ความฝันไปอีกขั้น<br></p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#supporters">ดูอันดับผู้สนับสนุน ↓</a>
+        <a class="btn btn-ghost" href="https://line.me/ti/g2/FBVCguipgNcVIkijYYzpney0QyGKM7v8mADIGA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener">ร่วมซัพพอร์ตแอล</a>
+      </div>
+      <p class="hint"></p>
+    </div>
+    <div class="hero-right reveal on">
+      <a href="https://x.com/bnk48official/status/2083802979543716171" target="_blank" rel="noopener" style="display:block">
+        <figure class="poster">
+          <span class="stck" style="top:-14px;left:-12px">⬛</span>
+          <span class="stck" style="top:30%;right:-16px;font-size:26px">✨</span>
+          <span class="stck" style="bottom:12%;left:-18px;font-size:26px">🐈‍⬛</span>
+          <img src="https://pbs.twimg.com/media/HOsns0TagAADxxJ.jpg?name=orig" alt="โปสเตอร์สมัคร GE2026 ของ แอล สิริกร นิลกษาปน์">
+          <figcaption>ใบสมัคร GE2026 · ภาพจาก X @bnk48official (คลิกเพื่อดูโพสต์)</figcaption>
+        </figure>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COUNTDOWN ============ -->
+<section id="countdown">
+  <div class="sec-head reveal">
+    <h2>นับถอยหลังสู่ GE2026</h2>
+    <p>ปักหมุดรอวันโหวตให้แอล</p>
+  </div>
+  <div class="cd-card reveal">
+    <div class="cd-title" id="cdTitle">เปิดโหวตในอีก</div>
+    <div class="cd-grid" id="cdGrid">
+      <div class="cd-unit"><b id="cdD">--</b><span>วัน</span></div>
+      <div class="cd-unit"><b id="cdH">--</b><span>ชั่วโมง</span></div>
+      <div class="cd-unit"><b id="cdM">--</b><span>นาที</span></div>
+      <div class="cd-unit"><b id="cdS">--</b><span>วินาที</span></div>
+    </div>
+    <div class="cd-sub" id="cdSub">เริ่มโหวต 1 ตุลาคม 2026 เวลา 12:00 น. เป็นต้นไป ผ่านแอปพลิเคชัน iAM48</div>
+    <div class="cd-ended" id="cdEnded" hidden></div>
+    <div class="timeline">
+      <div class="t-chip" id="chipOpen">🗳️ เปิดโหวต · 1 ต.ค. 2026 · 12:00 น.</div>
+      <div class="t-chip" id="chipClose">⏳ ปิดโหวต · 12 พ.ย. 2026</div>
+      <div class="t-chip" id="chipResult">🏆 ประกาศผล · 14 พ.ย. 2026 · สถานที่ TBA</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SONGS ============ -->
+<section id="songs">
+  <div class="sec-head reveal">
+    <h2>3 เพลงที่แอลเลือก</h2>
+    <p>Song choices by L BNK48</p>
+  </div>
+  <div class="songs">
+    <div class="song reveal">
+      <div class="rank">อันดับ 1</div>
+      <img loading="lazy" src="https://i.ytimg.com/vi/N2UNXRsw5Eg/hqdefault.jpg" alt="Wataridoritachi ni Sora wa Mienai">
+      <div class="song-body">
+        <h3>Wataridoritachi ni Sora wa Mienai</h3>
+        <p>NGT48</p>
+        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=N2UNXRsw5Eg" target="_blank" rel="noopener">▶ ฟังบน YouTube</a>
+      </div>
+    </div>
+    <div class="song reveal">
+      <div class="rank">อันดับ 2</div>
+      <img loading="lazy" src="https://i.ytimg.com/vi/5GhdeAIxwxs/hqdefault.jpg" alt="Seishun no Deadline">
+      <div class="song-body">
+        <h3>Seishun no Deadline</h3>
+        <p>NMB48</p>
+        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=5GhdeAIxwxs" target="_blank" rel="noopener">▶ ฟังบน YouTube</a>
+      </div>
+    </div>
+    <div class="song reveal">
+      <div class="rank">อันดับ 3</div>
+      <img loading="lazy" src="https://i.ytimg.com/vi/6AhXWkxv9T4/hqdefault.jpg" alt="Bokura no Eureka">
+      <div class="song-body">
+        <h3>Bokura no Eureka</h3>
+        <p>NMB48</p>
+        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=6AhXWkxv9T4" target="_blank" rel="noopener">▶ ฟังบน YouTube</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DONATE ============ -->
+<section id="donate">
+  <div class="sec-head reveal">
+    <h2>ยอดโดเนทรวมเพื่อแอล</h2>
+    <p></p>
+  </div>
+  <div class="total-card reveal">
+    <small>ยอดโดเนทรวมทั้งหมด</small>
+    <div class="total-num"><span id="totalNum">xxx,xxx</span> บาท</div>
+    <div class="total-note" id="totalNote">* ตัวเลขตัวอย่าง - รออัปเดตยอดจริง</div>
+</div>
+<div class="boards" id="boards"></div>
+<p class="small-note">แยกย่อยตามกระดานโดเนทของ Sisasterteam</p>
+</section>
+
+
+<!-- ============ SUPPORTERS ============ -->
+<section id="supporters">
+  <div class="sec-head reveal">
+    <h2>อันดับผู้สนับสนุน</h2>
+    <p>ขอขอบคุณทุกการสนับสนุน</p>
+  </div>
+  <div class="podium reveal" id="podium"></div>
+  <div class="s-table reveal" id="sTable"></div>
+</section>
+
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="sec-head reveal">
+    <h2>ช่องทางติดต่อ &amp; ซัพพอร์ต</h2>
+  </div>
+  <div class="c-grid reveal" style="max-width:600px;margin:0 auto">
+    <div class="c-card">
+      <div class="ic">🔗</div>
+      <h4>OpenLink</h4>
+      <p>รวมทุกช่องทางของแอลและบ้านแฟนคลับ</p>
+      <a href="https://www.openlink.co/sisasterteam" target="_blank" rel="noopener">openlink.co/sisasterteam</a>
+    </div>
+    <div class="c-card">
+      <div class="ic">📱</div>
+      <h4>iAM48 Application</h4>
+      <p>โหวตให้แอลบน iAM48</p>
+      <a href="https://app.bnk48.com/members/bnk48/l" target="_blank" rel="noopener">app.bnk48.com/members/bnk48/l</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p class="fl">แอล · GE2026</p>
+  <p>เว็บไซต์นี้จัดทำโดยแฟนคลับ (fan-made) ไม่มีส่วนเกี่ยวข้องกับ BNK48, CGM48 หรือ iAM แต่อย่างใด</p>
+</footer>
+
+<script src="data.js"></script>
+
+<script>
+
+const fmt = n => n.toLocaleString('th-TH');
+const pad = n => String(n).padStart(2,'0');
+
+/* ---- donate ---- */
+if (CONFIG.totalDonation !== null){
+  document.getElementById('totalNum').textContent = fmt(CONFIG.totalDonation);
+  document.getElementById('totalNote').textContent = '* ยอดสะสมจากทุกกระดานของ Sisasterteam';
+}
+document.getElementById('boards').innerHTML = CONFIG.boards.map((b,i)=>`
+  <div class="board reveal ${i===0?'first':''}">
+    <span class="b-name">${i===0?' ':''}${b.name}</span>
+    <span class="b-amt">${b.amount===null?'… บาท':fmt(b.amount)+' บาท'}</span>
+  </div>`).join('');
+
+/* ---- supporters ---- */
+const order = [1,0,2]; 
+
+document.getElementById('podium').innerHTML = order.map(idx => {
+  const s = CONFIG.supportersList[idx]; 
+  const rank = idx + 1; 
+  const fallbackSVG = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23fdeef3"/><text y=".9em" x="5" font-size="80"></text></svg>`;
+  
+  return `<div class="p-card p${rank}">
+    <div class="ava-wrap r${rank}">
+      <img src="Donators/${encodeURIComponent(s[0])}.jpg" class="ava-img" onerror="this.src='${fallbackSVG}'">
+      <div class="rank-badge">${pad(rank)}</div>
+    </div>
+    <div class="p-body">
+      <h3>${s[0]}</h3>
+      <div class="cnt" style="margin-bottom:0">รวม ${s[1]} ครั้ง<br>${fmt(s[2])} THB</div>
+    </div>
+  </div>`;
+}).join('');
+
+document.getElementById('sTable').innerHTML =
+  `<div class="s-row head"><span>#</span><span>ชื่อผู้สนับสนุน</span><span class="ct" style="text-align:right">ยอดโดเนท</span></div>` +
+  CONFIG.supportersList.slice(3).map((r,i)=>`<div class="s-row"><span class="no">${i+4}</span>
+    <span class="nm"><img src="Donators/${encodeURIComponent(r[0])}.jpg" onerror="this.outerHTML='<em>🐈‍⬛</em>'"> ${r[0]}</span><span class="ct" style="line-height:1.2;font-size:13px">${fmt(r[2])} ฿<br><small style="color:var(--muted);font-weight:600">${r[1]} ครั้ง</small></span></div>`).join('');
+  /* ---- countdown ---- */
+const OPEN = new Date(CONFIG.openTime), CLOSE = new Date(CONFIG.closeTime), RESULT = new Date(CONFIG.resultDay);
+const $ = id => document.getElementById(id);
+function tick(){
+  const now = new Date();
+  const cO=$('chipOpen'), cC=$('chipClose'), cR=$('chipResult');
+  cO.className='t-chip'; cC.className='t-chip'; cR.className='t-chip';
+  if (now < OPEN){
+    cO.classList.add('active');
+    $('cdTitle').innerHTML = 'เปิดโหวตในอีก <span class="live">เร็วๆ นี้</span>';
+    $('cdSub').textContent = 'เริ่มโหวต 1 ตุลาคม 2026 เวลา 12:00 น. เป็นต้นไป ผ่านแอปพลิเคชัน iAM48';
+    showDiff(OPEN - now);
+  } else if (now < CLOSE){
+    cO.classList.add('done'); cC.classList.add('active');
+    $('cdTitle').innerHTML = 'กำลังเปิดโหวต! ปิดโหวตในอีก <span class="live">LIVE</span>';
+    $('cdSub').textContent = 'โหวตให้แอลได้แล้ววันนี้ ผ่านแอป iAM48 จนถึง 12 พฤศจิกายน 2026';
+    showDiff(CLOSE - now);
+  } else {
+    cO.classList.add('done'); cC.classList.add('done'); cR.classList.add('active');
+    $('cdGrid').style.display='none'; $('cdSub').style.display='none'; $('cdTitle').style.display='none';
+    const ended = $('cdEnded'); ended.hidden = false;
+    ended.innerHTML = (now >= RESULT)
+      ? '🏆 ประกาศผลแล้ว!<br>ติดตามผลการเลือกตั้งได้ทางแอป iAM48'
+      : '⏹ ปิดโหวตแล้ว ขอบคุณทุกแรงโหวต!<br>🏆 ประกาศผล 14 พฤศจิกายน 2026 · สถานที่ TBA';
+  }
+}
+function showDiff(ms){
+  const s = Math.floor(ms/1000);
+  $('cdD').textContent = pad(Math.floor(s/86400));
+  $('cdH').textContent = pad(Math.floor(s/3600)%24);
+  $('cdM').textContent = pad(Math.floor(s/60)%60);
+  $('cdS').textContent = pad(s%60);
+}
+tick(); setInterval(tick,1000);
+
+/* ---- falling petals ---- */
+const pet = document.getElementById('petals');
+for(let i=0;i<16;i++){
+  const sp = document.createElement('span');
+  sp.textContent = ['🌸','','🩷','✿'][i%4];
+  sp.style.left = Math.random()*100+'vw';
+  sp.style.fontSize = (10+Math.random()*14)+'px';
+  sp.style.animationDuration = (9+Math.random()*12)+'s';
+  sp.style.animationDelay = (-Math.random()*15)+'s';
+  pet.appendChild(sp);
+}
+
+/* ---- scroll reveal ---- */
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold: 0});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
