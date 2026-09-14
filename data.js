@@ -4,12 +4,12 @@ const CONFIG = {
   resultDay : '2026-11-14T00:00:00+07:00',
   donationDisclaimer : '<span style="color: #22c55e;">●</span> อัปเดตล่าสุดเมื่อ 15 กันยายน 23.59 น.',
   supportersList: [
-    ["James88", 11],
     ["94", 28],
     ["Putto", 23],
     ["อาเจ้แอล", 28],
     ["James115", 75],
     ["Matchacha🪷", 11],
+    ["James88", 10],
     ["Hase JP", 21],
     ["PH", 19],
     ["K.e.n🐈‍⬛", 34],
