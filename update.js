@@ -7,19 +7,16 @@ async function updateData() {
 
   const rows = csvText.split('\n').map(row => row.trim()).filter(row => row);
   
-  // Extract Name (Col 0), Entries (Col 1), and Sum (Col 2)
   const parsedData = rows.slice(1).map(row => {
     const cols = row.split(',');
-    const name = cols[0].replace(/^"|"$/g, '');
+    const name = cols[0].replace(/^"|"$/g, '').trim();
     const entries = parseInt(cols[1], 10) || 0;
     const sum = parseFloat(cols[2]) || 0;
     return { name, entries, sum };
   });
 
-  // Sort descending based on the Sum column
   parsedData.sort((a, b) => b.sum - a.sum);
 
-  // Output only Name and Entries to the final array
   const supportersList = parsedData.map(item => {
     return `    ["${item.name}", ${item.entries}]`;
   }).join(',\n');
