@@ -354,6 +354,14 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   width: 14px; height: 14px; background: #fff; border-radius: 50%;
   box-shadow: inset 0 0 2px #000;
 }
+
+@media (max-width: 900px) {
+  #bgmContainer.hide-mobile {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8) translateY(20px);
+  }
+}
 </style>
 
 <script type="application/ld+json">
@@ -421,8 +429,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 </head>
 <body>
 <audio id="bgMusic" src="Wataridoritachi.mp3" loop></audio>
-<div id="bgmContainer" aria-label="Toggle BGM" style="position:fixed; bottom:20px; right:20px; z-index:99; width:64px; height:64px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-  <div id="bgmVinyl" class="vinyl-spin">
+<div id="bgmContainer" class="hide-mobile" aria-label="Toggle BGM" style="position:fixed; bottom:20px; right:20px; z-index:99; width:64px; height:64px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: opacity 0.3s ease, transform 0.3s ease;">  <div id="bgmVinyl" class="vinyl-spin">
     <img src="watari.jpg" alt="BGM Vinyl">
   </div>
   <div id="bgmIcon" style="position:absolute; color:white; font-size:26px; text-shadow:0 2px 6px rgba(0,0,0,0.8); z-index:2; pointer-events:none;">▶</div>
@@ -745,7 +752,7 @@ bgmContainer.addEventListener('click', (e) => {
   if (bgMusic.paused) {
     bgMusic.play();
     bgmVinyl.style.animationPlayState = 'running';
-    bgmIcon.textContent = '⏸';
+    bgmIcon.textContent = '❚❚'; 
   } else {
     bgMusic.pause();
     bgmVinyl.style.animationPlayState = 'paused';
@@ -757,10 +764,28 @@ document.body.addEventListener('click', () => {
   if (bgMusic.paused) {
     bgMusic.play().then(() => {
       bgmVinyl.style.animationPlayState = 'running';
-      bgmIcon.textContent = '⏸';
+      bgmIcon.textContent = '❚❚';
     }).catch(e => console.log("Audio blocked:", e));
   }
 }, { once: true });
+
+const openChatBtn = document.querySelector('.btn-line'); 
+
+function checkBgmVisibility() {
+  if (window.innerWidth <= 900 && openChatBtn) {
+    if (openChatBtn.getBoundingClientRect().bottom < 0) {
+      bgmContainer.classList.remove('hide-mobile');
+    } else {
+      bgmContainer.classList.add('hide-mobile');
+    }
+  } else {
+    bgmContainer.classList.remove('hide-mobile');
+  }
+}
+
+window.addEventListener('scroll', checkBgmVisibility, { passive: true });
+window.addEventListener('resize', checkBgmVisibility, { passive: true });
+checkBgmVisibility();
 </script>
 </body>
 </html>
