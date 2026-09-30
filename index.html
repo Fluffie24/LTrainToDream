@@ -25,8 +25,8 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="canonical" href="https://ltraintodream.vercel.app/">
-<link rel="preload" as="image" href="baige.png" media="(max-width: 900px)">
-<link rel="preload" as="image" href="baisamak.jpg" media="(min-width: 901px)">
+<link rel="preload" as="image" href="posterge.png" media="(max-width: 900px)">
+<link rel="preload" as="image" href="poster.jpg" media="(min-width: 901px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -85,7 +85,7 @@ section{max-width:1180px;margin:auto;padding:70px 22px 30px}
 .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;color:var(--rose-deep)}
 .hero-right{display:flex;justify-content:center}
 .poster{position:relative;transform:rotate(2deg);background:#fff;padding:12px 12px 0;border-radius:20px;box-shadow:0 24px 60px rgba(142,29,73,.18);max-width:400px;width:100%}
-.poster img{border-radius:12px;aspect-ratio:1108/1477;object-fit:cover;width:100%}
+.poster img{border-radius:12px;aspect-ratio:1448/2048;object-fit:cover;width:100%}
 .poster figcaption{font-size:11px;color:var(--muted);text-align:center;padding:10px 6px}
 .stck{position:absolute;font-size:22px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.15))}
 
@@ -130,6 +130,23 @@ section{max-width:1180px;margin:auto;padding:70px 22px 30px}
 .song-body h3{font-size:17px;color:var(--rose-deep);line-height:1.4}
 .song-body p{font-size:12.5px;color:var(--muted);font-weight:600;margin:4px 0 14px}
 .song .btn{padding:9px 18px;font-size:13px}
+
+/* ---------- appeal video + application form ---------- */
+.video-card{max-width:820px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:12px;box-shadow:0 16px 44px rgba(142,29,73,.1)}
+.video-frame{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-cap{text-align:center;font-size:12.5px;color:var(--muted);font-weight:600;padding:12px 6px 4px}
+
+.appform{display:block;max-width:420px;margin:0 auto;background:#fff;padding:12px 12px 0;border-radius:20px;box-shadow:0 24px 60px rgba(142,29,73,.18);transform:rotate(-1.5deg);transition:.3s}
+.appform:hover{transform:rotate(0) translateY(-4px)}
+.appform img{width:100%;height:auto;border-radius:12px}
+.appform-cap{display:block;font-size:11px;color:var(--muted);text-align:center;padding:10px 6px}
+
+@media(max-width:900px){
+  .video-card{padding:8px;border-radius:18px}
+  .video-frame{border-radius:12px}
+  .appform{max-width:360px;padding:10px 10px 0}
+}
 
 /* ---------- tweet ---------- */
 .tweet-card{max-width:640px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 16px 44px rgba(142,29,73,.1)}
@@ -308,6 +325,20 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 .close:hover { color: var(--rose-deep); }
 @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
+.appeal-app-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+@media(max-width:900px){
+  .appeal-app-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
 </style>
 
 <script type="application/ld+json">
@@ -382,7 +413,9 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
     <nav id="navMenu">
       <a href="#countdown">นับถอยหลัง</a>
-      <a href="#songs">เพลงที่เลือก</a>
+<a href="#appeal">คลิป Appeal</a>
+<a href="#application">ใบสมัคร</a>
+<a href="#songs">เพลงที่เลือก</a>
       <a href="#supporters">Hall of ผู้ประสบภัย</a>
     </nav>
   </div>
@@ -410,10 +443,10 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
           <span class="stck" style="top:30%;right:-16px;font-size:26px">✨</span>
           <span class="stck" style="bottom:12%;left:-18px;font-size:26px">🐈‍⬛</span>
           <picture>
-  <source media="(max-width: 900px)" srcset="baige.png">
-  <img src="baisamak.jpg" alt="โปสเตอร์สมัคร GE2026 ของ แอล สิริกร นิลกษาปน์">
+  <source media="(max-width: 900px)" srcset="posterge.png">
+  <img src="poster.jpg" alt="โปสเตอร์ GE2026 ของ แอล สิริกร นิลกษาปน์">
 </picture>
-          <figcaption>ใบสมัคร GE6 · จาก @bnk48official</figcaption>
+<figcaption>โปสเตอร์ GE6 · แอล BNK48 Team NV</figcaption>
         </figure>
       </a>
     </div>
@@ -439,6 +472,33 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
       <div class="t-chip" id="chipOpen">🗳️ เปิดโหวต · 1 ต.ค. 2026 · 12:00 น.</div>
       <div class="t-chip" id="chipClose">⏳ ปิดโหวต · 12 พ.ย. 2026</div>
       <div class="t-chip" id="chipResult">🏆 ประกาศผล · 14 พ.ย. 2026 · สถานที่ TBA</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPEAL VIDEO & APPLICATION FORM ============ -->
+<section id="appeal">
+  <div class="sec-head reveal">
+    <h2>คลิป Appeal & ใบสมัคร GE6</h2>
+  </div>
+  
+  <div class="appeal-app-grid">
+    <!-- Appeal Video (Thumbnail Style) -->
+    <div class="song reveal" style="max-width: 360px; margin: auto; width: 100%;">
+      <img loading="lazy" src="appeal.jpg" alt="คลิป Appeal GE6 ของ แอล BNK48" style="aspect-ratio: auto;">
+      <div class="song-body" style="text-align: center;">
+        <h3 style="margin-bottom: 6px;">คลิป Appeal GE6</h3>
+        <p>แอล BNK48</p>
+        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=av4I-grbk_w" target="_blank" rel="noopener" style="width: 100%; justify-content: center;">▶ ดูคลิปบน YouTube</a>
+      </div>
+    </div>
+
+    <!-- Application Form -->
+    <div id="application" class="reveal" style="display: flex; justify-content: center;">
+      <a class="appform" href="https://x.com/bnk48official/status/2083802979543716171" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%;">
+        <img loading="lazy" src="baisamak.jpg" alt="ใบสมัคร GE6 ของ แอล สิริกร นิลกษาปน์">
+        <span class="appform-cap">ใบสมัคร GE6 · จาก @bnk48official</span>
+      </a>
     </div>
   </div>
 </section>
