@@ -22,8 +22,8 @@
 <meta name="twitter:description" content="รวมข้อมูล GE6 ของ L BNK48 ร่วมส่งแอลสู่อันดับที่ 4 ด้วยกัน">
 <meta name="twitter:image" content="https://ltraintodream.vercel.app/og.jpg">
 
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" href="faviconi.png">
+<link rel="apple-touch-icon" href="faviconi.png">
 <link rel="canonical" href="https://ltraintodream.vercel.app/">
 <link rel="preload" as="image" href="posterge.png" media="(max-width: 900px)">
 <link rel="preload" as="image" href="poster.jpg" media="(min-width: 901px)">
@@ -88,6 +88,91 @@ section{max-width:1180px;margin:auto;padding:70px 22px 30px}
 .poster img{border-radius:12px;aspect-ratio:1448/2048;object-fit:cover;width:100%}
 .poster figcaption{font-size:11px;color:var(--muted);text-align:center;padding:10px 6px}
 .stck{position:absolute;font-size:22px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.15))}
+
+@media (min-width: 901px) {
+  .hero {
+    position: relative;
+    padding-top: 8vh;
+    padding-bottom: 8vh;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -20%; left: -10%; right: -10%; bottom: -10%;
+    background: radial-gradient(circle at 80% 30%, rgba(210,60,109,0.06) 0%, transparent 45%),
+                radial-gradient(circle at 20% 70%, rgba(201,162,75,0.05) 0%, transparent 45%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 6vw, 76px);
+    margin: 24px 0 20px;
+    text-shadow: 0 4px 16px rgba(210,60,109,0.08);
+  }
+  .hero-sub {
+    font-size: 18px;
+    max-width: 90%;
+  }
+  .hero-right {
+    animation: heroFloat 7s ease-in-out infinite;
+  }
+  @keyframes heroFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+  
+  .poster {
+    transform: rotate(3deg);
+    background: linear-gradient(135deg, #ffffff, #fff0f4);
+    padding: 18px 18px 6px; 
+    border-radius: 28px;
+    border: 4px solid #fecbe0;
+    box-shadow: 0 32px 72px rgba(142,29,73,0.22);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s ease, border-color 0.3s ease;
+  }
+  
+  .poster::before, .poster::after {
+    content: "✦";
+    position: absolute;
+    color: var(--rose);
+    font-size: 24px;
+    line-height: 1;
+    z-index: 3;
+    animation: starTwinkle 3s infinite alternate;
+  }
+  .poster::before { top: 8px; right: 10px; }
+  .poster::after { bottom: 40px; left: 10px; animation-delay: 1.5s; }
+  
+  @keyframes starTwinkle {
+    0% { opacity: 0.4; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.15); text-shadow: 0 0 10px rgba(210,60,109,0.5); }
+  }
+
+  .poster:hover {
+    transform: rotate(0deg) scale(1.03) translateY(-10px);
+    box-shadow: 0 45px 85px rgba(142,29,73,0.3), 0 0 30px rgba(210,60,109,0.15);
+    border-color: var(--rose);
+  }
+  
+  .poster img {
+    border-radius: 16px;
+    border: 1px solid var(--line);
+  }
+  
+  .poster figcaption {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding-top: 14px;
+  }
+
+  .stck {
+    transition: transform 0.4s ease;
+    z-index: 10;
+  }
+  .poster:hover .stck {
+    transform: scale(1.2) rotate(-10deg);
+  }
+}
 
 /* ---------- countdown ---------- */
 .cd-card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:40px 26px;text-align:center;box-shadow:0 18px 50px rgba(142,29,73,.08)}
@@ -468,9 +553,9 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <div class="hero-right reveal on">
       <a href="https://x.com/bnk48official/status/2083802979543716171" target="_blank" rel="noopener" style="display:block">
         <figure class="poster">
-          <span class="stck" style="top:-14px;left:-12px">⬛</span>
-          <span class="stck" style="top:30%;right:-16px;font-size:26px">✨</span>
-          <span class="stck" style="bottom:12%;left:-18px;font-size:26px">🐈‍⬛</span>
+          <span class="stck" style="top:-14px;left:-12px"></span>
+          <span class="stck" style="top:30%;right:-16px;font-size:26px"></span>
+          <span class="stck" style="bottom:12%;left:-18px;font-size:26px"></span>
           <picture>
   <source media="(max-width: 900px)" srcset="posterge.png">
   <img src="poster.jpg" alt="โปสเตอร์ GE2026 ของ แอล สิริกร นิลกษาปน์">
