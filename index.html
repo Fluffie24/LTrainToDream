@@ -322,16 +322,16 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 
 .appeal-app-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   align-items: center;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 @media(max-width:900px){
   .appeal-app-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 40px;
   }
 }
 
@@ -505,13 +505,21 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   </div>
 </section>
 
-<!-- ============ APPEAL VIDEO & APPLICATION FORM ============ -->
+<!-- ============ POSTER, APPEAL VIDEO & APPLICATION FORM ============ -->
 <section id="appeal">
   <div class="sec-head reveal">
-    <h2>คลิป Appeal & ใบสมัคร GE6</h2>
+    <h2>โปสเตอร์ คลิป Appeal & ใบสมัคร GE6</h2>
   </div>
   
   <div class="appeal-app-grid">
+    <!-- Poster -->
+    <div class="reveal" style="display: flex; justify-content: center;">
+      <a class="appform" href="poster.jpg" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%; transform: rotate(-2.5deg);">
+        <img loading="lazy" src="poster.jpg" alt="โปสเตอร์ GE6 ของ แอล สิริกร นิลกษาปน์" style="aspect-ratio: 1448/2048; object-fit: cover;">
+        <span class="appform-cap">โปสเตอร์ GE6</span>
+      </a>
+    </div>
+
     <!-- Appeal Video (Thumbnail Style) -->
     <div class="song reveal" style="max-width: 360px; margin: auto; width: 100%;">
       <img loading="lazy" src="appeal.jpg" alt="คลิป Appeal GE6 ของ แอล BNK48" style="aspect-ratio: auto;">
@@ -524,7 +532,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 
     <!-- Application Form -->
     <div id="application" class="reveal" style="display: flex; justify-content: center;">
-      <a class="appform" href="https://x.com/bnk48official/status/2083802979543716171" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%;">
+      <a class="appform" href="https://x.com/bnk48official/status/2083802979543716171" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%; transform: rotate(2.5deg);">
         <img loading="lazy" src="baisamak.jpg" alt="ใบสมัคร GE6 ของ แอล สิริกร นิลกษาปน์">
         <span class="appform-cap">ใบสมัคร GE6 · จาก @bnk48official</span>
       </a>
@@ -745,7 +753,7 @@ const bgMusic = document.getElementById('bgMusic');
 const bgmContainer = document.getElementById('bgmContainer');
 const bgmVinyl = document.getElementById('bgmVinyl');
 const bgmIcon = document.getElementById('bgmIcon');
-bgMusic.volume = 0.15; 
+bgMusic.volume = 0.1; 
 
 bgmContainer.addEventListener('click', (e) => {
   e.stopPropagation(); 
