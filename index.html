@@ -334,6 +334,26 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     gap: 24px;
   }
 }
+
+@keyframes spinVinyl { 100% { transform: rotate(360deg); } }
+.vinyl-spin {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(210,60,109,0.3);
+  border: 3px solid #fff; background: #111;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  animation: spinVinyl 4s linear infinite;
+  animation-play-state: paused;
+}
+.vinyl-spin img {
+  width: 100%; height: 100%; object-fit: cover; opacity: 0.8;
+}
+.vinyl-spin::after {
+  content: ''; position: absolute;
+  width: 14px; height: 14px; background: #fff; border-radius: 50%;
+  box-shadow: inset 0 0 2px #000;
+}
 </style>
 
 <script type="application/ld+json">
@@ -401,7 +421,13 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 </head>
 <body>
 <audio id="bgMusic" src="Wataridoritachi.mp3" loop></audio>
-<div id="petals" aria-hidden="true"></div>
+<div id="bgmContainer" aria-label="Toggle BGM" style="position:fixed; bottom:20px; right:20px; z-index:99; width:64px; height:64px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+  <div id="bgmVinyl" class="vinyl-spin">
+    <img src="watari.jpg" alt="BGM Vinyl">
+  </div>
+  <div id="bgmIcon" style="position:absolute; color:white; font-size:26px; text-shadow:0 2px 6px rgba(0,0,0,0.8); z-index:2; pointer-events:none;">▶</div>
+</div>
+</div><div id="petals" aria-hidden="true"></div>
 
 <header class="topbar">
   <div class="topbar-in">
@@ -707,12 +733,32 @@ navMenu.querySelectorAll('a').forEach(link => {
   });
 });
 
+/* ---- BGM ---- */
 const bgMusic = document.getElementById('bgMusic');
+const bgmContainer = document.getElementById('bgmContainer');
+const bgmVinyl = document.getElementById('bgmVinyl');
+const bgmIcon = document.getElementById('bgmIcon');
 bgMusic.volume = 0.15; 
+
+bgmContainer.addEventListener('click', (e) => {
+  e.stopPropagation(); 
+  if (bgMusic.paused) {
+    bgMusic.play();
+    bgmVinyl.style.animationPlayState = 'running';
+    bgmIcon.textContent = '⏸';
+  } else {
+    bgMusic.pause();
+    bgmVinyl.style.animationPlayState = 'paused';
+    bgmIcon.textContent = '▶';
+  }
+});
 
 document.body.addEventListener('click', () => {
   if (bgMusic.paused) {
-    bgMusic.play().catch(e => console.log("Audio blocked:", e));
+    bgMusic.play().then(() => {
+      bgmVinyl.style.animationPlayState = 'running';
+      bgmIcon.textContent = '⏸';
+    }).catch(e => console.log("Audio blocked:", e));
   }
 }, { once: true });
 </script>
