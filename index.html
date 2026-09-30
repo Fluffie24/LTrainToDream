@@ -706,6 +706,15 @@ navMenu.querySelectorAll('a').forEach(link => {
     navMenu.classList.remove('show');
   });
 });
+
+const bgMusic = document.getElementById('bgMusic');
+bgMusic.volume = 0.15; 
+
+document.body.addEventListener('click', () => {
+  if (bgMusic.paused) {
+    bgMusic.play().catch(e => console.log("Audio blocked:", e));
+  }
+}, { once: true });
 </script>
 </body>
 </html>
