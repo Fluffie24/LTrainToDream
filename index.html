@@ -222,8 +222,8 @@ section{max-width:1180px;margin:auto;padding:70px 22px 30px}
 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .video-cap{text-align:center;font-size:12.5px;color:var(--muted);font-weight:600;padding:12px 6px 4px}
 
-.appform{display:block;max-width:420px;margin:0 auto;background:#fff;padding:12px 12px 0;border-radius:20px;box-shadow:0 24px 60px rgba(142,29,73,.18);transform:rotate(-1.5deg);transition:.3s}
-.appform:hover{transform:rotate(0) translateY(-4px)}
+.appform{display:block;max-width:420px;margin:0 auto;background:#fff;padding:12px 12px 0;border-radius:20px;box-shadow:0 24px 60px rgba(142,29,73,.18);transform:rotate(var(--rot, -1.5deg));transition:transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease}
+.appform:hover{transform:rotate(0deg) scale(1.03) translateY(-6px);box-shadow:0 32px 70px rgba(142,29,73,.25)}
 .appform img{width:100%;height:auto;border-radius:12px}
 .appform-cap{display:block;font-size:11px;color:var(--muted);text-align:center;padding:10px 6px}
 
@@ -448,6 +448,83 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     transform: scale(0.8) translateY(20px);
   }
 }
+
+
+@keyframes btnPulse {
+  0% { box-shadow: 0 0 0 0 rgba(210,60,109, 0.6); }
+  70% { box-shadow: 0 0 0 14px rgba(210,60,109, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(210,60,109, 0); }
+}
+.btn-primary { 
+  animation: btnPulse 2s infinite; 
+}
+.btn-primary:hover { 
+  animation: none; 
+}
+
+@keyframes liveBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.cd-title .live { 
+  animation: liveBounce 1s infinite alternate; 
+  display: inline-block; 
+}
+
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.podium .ava-wrap { 
+  animation: floatSoft 4s ease-in-out infinite; 
+}
+.podium .p1 .ava-wrap { animation-delay: 0s; }
+.podium .p2 .ava-wrap { animation-delay: 1.2s; }
+.podium .p3 .ava-wrap { animation-delay: 2.4s; }
+
+@keyframes shineText {
+  to { background-position: 200% center; }
+}
+.hero h1 .hl {
+  background: linear-gradient(to right, var(--rose) 20%, #ff8ca3 40%, #ff8ca3 60%, var(--rose) 80%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shineText 3s linear infinite;
+  
+  display: inline-block;
+  padding-top: 0.4em; 
+  padding-bottom: 0.1em; 
+  line-height: 1.2; 
+}
+.hero h1 .hl::after { 
+  display: none; 
+}
+
+.song img {
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.song:hover img {
+  transform: scale(1.08);
+}
+
+.cd-unit { 
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; 
+}
+.cd-unit:hover { 
+  transform: scale(1.08) translateY(-5px); 
+  box-shadow: 0 10px 20px rgba(210,60,109,.15), inset 0 -4px 0 rgba(210,60,109,.12);
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+.c-card:hover .ic, .c-card:hover img { 
+  animation: wiggle 0.5s ease-in-out; 
+}
 </style>
 
 <script type="application/ld+json">
@@ -602,28 +679,28 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <h2>โปสเตอร์ คลิป Appeal & ใบสมัคร GE6</h2>
   </div>
   
-  <div class="appeal-app-grid">
+<div class="appeal-app-grid">
     <!-- Poster -->
     <div class="reveal" style="display: flex; justify-content: center;">
-      <a class="appform" href="https://x.com/sisasterteam/status/2103714250283954620" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%; transform: rotate(-2.5deg);">
+      <a class="appform" href="https://x.com/sisasterteam/status/2103714250283954620" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%; --rot: -2.5deg;">
         <img loading="lazy" src="Pics/poster.jpg" alt="โปสเตอร์ GE6 ของ แอล สิริกร นิลกษาปน์" style="aspect-ratio: 1448/2048; object-fit: cover;">
         <span class="appform-cap">โปสเตอร์ GE6</span>
       </a>
     </div>
 
     <!-- Appeal Video (Thumbnail Style) -->
-    <div class="song reveal" style="max-width: 360px; margin: auto; width: 100%;">
+    <a href="https://www.youtube.com/watch?v=av4I-grbk_w" target="_blank" rel="noopener" class="song reveal" style="display: block; max-width: 360px; margin: auto; width: 100%;">
       <img loading="lazy" src="Pics/appeal.jpg" alt="คลิป Appeal GE6 ของ แอล BNK48" style="aspect-ratio: auto;">
       <div class="song-body" style="text-align: center;">
         <h3 style="margin-bottom: 6px;">คลิป Appeal GE6</h3>
         <p>แอล BNK48</p>
-        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=av4I-grbk_w" target="_blank" rel="noopener" style="width: 100%; justify-content: center;">▶ ดูคลิปบน YouTube</a>
+        <div class="btn btn-ghost" style="width: 100%; justify-content: center;">▶ ดูคลิปบน YouTube</div>
       </div>
-    </div>
+    </a>
 
     <!-- Application Form -->
     <div id="application" class="reveal" style="display: flex; justify-content: center;">
-      <a class="appform" href="https://x.com/bnk48official/status/2083802979543716171" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%; transform: rotate(2.5deg);">
+      <a class="appform" href="https://x.com/bnk48official/status/2083802979543716171" target="_blank" rel="noopener" style="margin: 0; max-width: 360px; width: 100%; --rot: 2.5deg;">
         <img loading="lazy" src="Pics/baisamak.jpg" alt="ใบสมัคร GE6 ของ แอล สิริกร นิลกษาปน์">
         <span class="appform-cap">ใบสมัคร GE6 · จาก @bnk48official</span>
       </a>
@@ -637,33 +714,33 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <h2>3 เพลงที่แอลเลือก</h2>
   </div>
   <div class="songs">
-    <div class="song reveal">
+    <a href="https://www.youtube.com/watch?v=N2UNXRsw5Eg" target="_blank" rel="noopener" class="song reveal" style="display: block;">
       <div class="rank">อันดับ 1</div>
       <img loading="lazy" src="Pics/Wataridori.jpg" alt="Wataridoritachi ni Sora wa Mienai">
       <div class="song-body">
         <h3>Wataridoritachi ni Sora wa Mienai</h3>
         <p>NGT48</p>
-        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=N2UNXRsw5Eg" target="_blank" rel="noopener">▶ ฟังบน YouTube</a>
+        <div class="btn btn-ghost">▶ ฟังบน YouTube</div>
       </div>
-    </div>
-    <div class="song reveal">
+    </a>
+    <a href="https://www.youtube.com/watch?v=5GhdeAIxwxs" target="_blank" rel="noopener" class="song reveal" style="display: block;">
       <div class="rank">อันดับ 2</div>
       <img loading="lazy" src="Pics/Seishun.jpg" alt="Seishun no Deadline">
       <div class="song-body">
         <h3>Seishun no Deadline</h3>
         <p>NMB48</p>
-        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=5GhdeAIxwxs" target="_blank" rel="noopener">▶ ฟังบน YouTube</a>
+        <div class="btn btn-ghost">▶ ฟังบน YouTube</div>
       </div>
-    </div>
-    <div class="song reveal">
+    </a>
+    <a href="https://www.youtube.com/watch?v=6AhXWkxv9T4" target="_blank" rel="noopener" class="song reveal" style="display: block;">
       <div class="rank">อันดับ 3</div>
       <img loading="lazy" src="Pics/Eureka.jpg" alt="Bokura no Eureka">
       <div class="song-body">
         <h3>Bokura no Eureka</h3>
         <p>NMB48</p>
-        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=6AhXWkxv9T4" target="_blank" rel="noopener">▶ ฟังบน YouTube</a>
+        <div class="btn btn-ghost">▶ ฟังบน YouTube</div>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 
