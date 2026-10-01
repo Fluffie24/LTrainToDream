@@ -496,7 +496,11 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   display: inline-block;
   padding-top: 0.4em; 
   padding-bottom: 0.1em; 
-  line-height: 1.2; 
+  line-height: 1.4; 
+  
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: background-position;
 }
 .hero h1 .hl::after { 
   display: none; 
