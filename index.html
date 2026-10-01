@@ -341,8 +341,13 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   
   .poster figcaption { display: none; }
   
-  .hero h1 { margin: 0 0 8px; font-size: clamp(30px, 8vw, 42px); 
-  text-shadow: 0 0 15px var(--bg), 0 0 25px var(--bg);}
+  .hero h1 { 
+    margin: 0 0 8px; 
+    font-size: clamp(30px, 8vw, 42px); 
+    text-shadow: 0 0 15px var(--bg), 0 0 25px var(--bg);
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
   
   .hero-sub {
     font-size: 13.5px;
