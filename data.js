@@ -2,7 +2,7 @@ const CONFIG = {
   openTime  : '2026-10-01T12:00:00+07:00',
   closeTime : '2026-11-12T12:00:00+07:00',
   resultDay : '2026-11-14T00:00:00+07:00',
-  donationDisclaimer : '<span style="color: #22c55e;">●</span> อัปเดตล่าสุดเมื่อ 5 ตุลาคม 21.07 น.',
+  donationDisclaimer : '<span style="color: #22c55e;">●</span> อัปเดตล่าสุดเมื่อ 5 ตุลาคม 21.10 น.',
   supportersList: [
     ["94", 32],
     ["Putto", 29],
@@ -122,7 +122,7 @@ const CONFIG = {
     ["Witaya.65", 1],
     ["นิววี่", 1],
     ["กระสุนสีเงินของแอล", 1],
-    ["3", 1],
+    ["3.", 1],
     ["D.", 1],
     ["💕P🌸", 1],
     ["Sainam", 3],
