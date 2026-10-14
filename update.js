@@ -11,7 +11,19 @@ async function updateData() {
     const cols = row.split(',');
     const name = cols[0].replace(/^"|"$/g, '').trim();
     const entries = parseInt(cols[1], 10) || 0;
-    const sum = parseFloat(cols[2]) || 0;
+    const rawSum = (cols[2] || '').replace(/^"|"$/g, '').trim();
+    let thb = 0;
+    let tok = 0;
+    if (rawSum.includes('+')) {
+      const parts = rawSum.split('+');
+      thb = parseFloat(parts[0]) || 0;
+      tok = parseFloat(parts[1]) || 0;
+    } else if (rawSum.toLowerCase().includes('token')) {
+      tok = parseFloat(rawSum) || 0;
+    } else {
+      thb = parseFloat(rawSum) || 0;
+    }
+    const sum = thb + (tok * 68);
     return { name, entries, sum };
   });
 
