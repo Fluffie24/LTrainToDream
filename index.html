@@ -534,6 +534,146 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 .c-card:hover .ic, .c-card:hover img { 
   animation: wiggle 0.5s ease-in-out; 
 }
+
+/* ---------- share ranking photo ---------- */
+.share-toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.btn-share-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--rose), #a1134e);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(210, 60, 109, 0.28);
+  transition: 0.25s;
+}
+.btn-share-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(210, 60, 109, 0.4);
+}
+.btn-share-top.alt {
+  background: #fff;
+  color: var(--rose-deep);
+  border: 1.5px solid var(--rose);
+  box-shadow: 0 6px 16px rgba(210, 60, 109, 0.12);
+}
+.btn-share-top.alt:hover {
+  background: var(--soft);
+}
+.btn-share-podium {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--soft);
+  color: var(--rose-deep);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-share-podium:hover {
+  background: var(--rose);
+  color: #fff;
+  border-color: var(--rose);
+}
+.s-row {
+  grid-template-columns: 50px 1fr auto 84px;
+  gap: 8px;
+}
+.s-row .act {
+  text-align: right;
+}
+.btn-share-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--bg2);
+  color: var(--rose-deep);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+.btn-share-row:hover {
+  background: var(--rose);
+  color: #fff;
+  border-color: var(--rose);
+}
+.share-modal-box {
+  background: #fff;
+  padding: 22px;
+  border-radius: 24px;
+  max-width: 92%;
+  width: 430px;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  animation: pop 0.25s ease-out;
+  text-align: center;
+}
+.share-preview-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 10px;
+  margin: 12px 0 16px;
+  max-height: 62vh;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.share-preview-wrap img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(142, 29, 73, 0.15);
+}
+.share-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.share-modal-actions .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 11px 14px;
+  font-size: 13.5px;
+}
+@media (max-width: 600px) {
+  .s-row {
+    grid-template-columns: 38px 1fr auto 68px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+  .btn-share-row {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+}
 </style>
 
 <script type="application/ld+json">
@@ -759,6 +899,10 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   <div class="sec-head reveal">
     <h2>Hall of ผู้ประสบภัย</h2>
     <p id="supportersNote">ขอขอบคุณทุกการสนับสนุน</p>
+    <div class="share-toolbar">
+      <button type="button" class="btn-share-top" onclick="openRankingShareModal('top', 10)">📸 แชร์รูป Top 10</button>
+      <button type="button" class="btn-share-top alt" onclick="openRankingShareModal('top', 20)">✨ แชร์รูป Top 20</button>
+    </div>
   </div>
   <div class="podium reveal" id="podium"></div>
   <div class="s-table reveal" id="sTable"></div>
@@ -814,6 +958,23 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <span style="display:block; text-align:center; margin-top:12px; color:var(--rose-deep); font-weight:600; font-size:13px;">แปะสลิปใน openchat ด้วยน้า ~ 🫶🏻🐈‍⬛🩷</span>
   </div>
 </div>
+
+<!-- ============ SHARE PHOTO MODAL ============ -->
+<div id="shareModal" class="modal" onclick="closeShareModal()">
+  <div class="share-modal-box" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeShareModal()">&times;</span>
+    <h3 id="shareModalTitle" style="color:var(--rose-deep); font-size:18px;">แชร์รูปอันดับผู้สนับสนุน</h3>
+    <p style="font-size:12px; color:var(--muted); margin-top:2px;">สามารถกดบันทึกรูป หรือกดค้างที่รูปเพื่อบันทึกได้ทันที</p>
+    <div class="share-preview-wrap">
+      <div id="shareLoading" style="padding:40px 10px; font-weight:600; color:var(--rose);">กำลังสร้างรูปภาพ... 🌸</div>
+      <img id="sharePreviewImg" alt="Ranking Share Card" style="display:none;">
+    </div>
+    <div class="share-modal-actions">
+      <button type="button" class="btn btn-primary" id="btnDownloadCard">⬇ บันทึกรูปภาพ</button>
+      <button type="button" class="btn btn-ghost" id="btnNativeShare">📤 แชร์ไปยัง SNS</button>
+    </div>
+  </div>
+</div>
 </main>
 
 <footer>
@@ -853,14 +1014,599 @@ document.getElementById('podium').innerHTML = order.map(idx => {
     <div class="p-body">
       <h3>${escapeHTML(s[0])}</h3>
       <div class="cnt" style="margin-bottom:0">รวม ${s[1]} ครั้ง</div>
+      <button type="button" class="btn-share-podium" onclick="openRankingShareModal('user', ${idx})">📸 แชร์อันดับ</button>
     </div>
   </div>`;
 }).join('');
 
 document.getElementById('sTable').innerHTML =
-  `<div class="s-row head"><span>#</span><span>ชื่อผู้สนับสนุน</span><span class="ct" style="text-align:right">จำนวนครั้ง</span></div>` +
-  CONFIG.supportersList.slice(3).map((r,i)=>`<div class="s-row"><span class="no">${i+4}</span>
-    <span class="nm"><img src="Donators/${safeFile(r[0])}.jpg" onerror="this.outerHTML='<em>🐈‍⬛</em>'"> ${escapeHTML(r[0])}</span><span class="ct" style="line-height:1.2;font-size:14px;font-weight:700">${r[1]} ครั้ง</span></div>`).join('');
+  `<div class="s-row head"><span>#</span><span>ชื่อผู้สนับสนุน</span><span class="ct" style="text-align:right">จำนวนครั้ง</span><span class="act">แชร์</span></div>` +
+  CONFIG.supportersList.slice(3).map((r,i)=>{
+    const idx = i + 3;
+    return `<div class="s-row"><span class="no">${idx + 1}</span>
+      <span class="nm"><img src="Donators/${safeFile(r[0])}.jpg" onerror="this.outerHTML='<em>🐈‍⬛</em>'"> ${escapeHTML(r[0])}</span>
+      <span class="ct" style="line-height:1.2;font-size:14px;font-weight:700">${r[1]} ครั้ง</span>
+      <span class="act"><button type="button" class="btn-share-row" onclick="openRankingShareModal('user', ${idx})">📸 แชร์</button></span>
+    </div>`;
+  }).join('');
+
+/* ---- SNS Share Card Generator ---- */
+let currentShareBlob = null;
+let currentShareFilename = 'L-GE2026-Ranking.png';
+
+function closeShareModal() {
+  document.getElementById('shareModal').style.display = 'none';
+}
+
+function loadShareImage(src) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function fitCanvasText(ctx, text, maxWidth) {
+  if (ctx.measureText(text).width <= maxWidth) return text;
+  let t = text;
+  while (t.length > 1 && ctx.measureText(t + '...').width > maxWidth) {
+    t = t.slice(0, -1);
+  }
+  return t + '...';
+}
+
+function drawCircularImage(ctx, img, cx, cy, radius) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+
+  if (img && img.width > 0 && img.height > 0) {
+    const size = Math.min(img.width, img.height);
+    const sx = (img.width - size) / 2;
+    const sy = (img.height - size) / 2;
+    ctx.drawImage(img, sx, sy, size, size, cx - radius, cy - radius, radius * 2, radius * 2);
+  } else {
+    const g = ctx.createLinearGradient(cx - radius, cy - radius, cx + radius, cy + radius);
+    g.addColorStop(0, '#fdeef3');
+    g.addColorStop(1, '#f9c6d9');
+    ctx.fillStyle = g;
+    ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
+    ctx.font = `${Math.round(radius * 0.9)}px "Prompt", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🐈‍⬛', cx, cy + radius * 0.06);
+  }
+  ctx.restore();
+}
+
+function drawCardBackground(ctx, W, H, posterImg) {
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#fff7f9');
+  bg.addColorStop(0.5, '#fde8f0');
+  bg.addColorStop(1, '#f9d2e2');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Soft decorative glow circles
+  const glow1 = ctx.createRadialGradient(W * 0.85, H * 0.12, 20, W * 0.85, H * 0.12, 360);
+  glow1.addColorStop(0, 'rgba(210, 60, 109, 0.16)');
+  glow1.addColorStop(1, 'rgba(210, 60, 109, 0)');
+  ctx.fillStyle = glow1;
+  ctx.fillRect(0, 0, W, H);
+
+  const glow2 = ctx.createRadialGradient(W * 0.12, H * 0.85, 20, W * 0.12, H * 0.85, 380);
+  glow2.addColorStop(0, 'rgba(201, 162, 75, 0.14)');
+  glow2.addColorStop(1, 'rgba(201, 162, 75, 0)');
+  ctx.fillStyle = glow2;
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle watermark of L's poster in background
+  if (posterImg) {
+    ctx.save();
+    ctx.globalAlpha = 0.06;
+    const pw = W * 0.9;
+    const ph = pw * (posterImg.height / posterImg.width);
+    ctx.drawImage(posterImg, (W - pw) / 2, (H - ph) / 2, pw, ph);
+    ctx.restore();
+  }
+
+  // Outer frame border
+  ctx.save();
+  drawRoundedRect(ctx, 28, 28, W - 56, H - 56, 36);
+  ctx.strokeStyle = 'rgba(210, 60, 109, 0.22)';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.restore();
+
+  // Floating sakura accents
+  const deco = [
+    [95, 110, '🌸', 30], [980, 130, '✨', 28], [110, H - 140, '🩷', 26],
+    [970, H - 150, '🌸', 28], [80, H * 0.48, '✿', 24], [1000, H * 0.52, '🩷', 24]
+  ];
+  deco.forEach(([x, y, ch, sz]) => {
+    ctx.save();
+    ctx.font = `${sz}px "Prompt", sans-serif`;
+    ctx.globalAlpha = 0.55;
+    ctx.textAlign = 'center';
+    ctx.fillText(ch, x, y);
+    ctx.restore();
+  });
+}
+
+function getRankColors(rank) {
+  if (rank === 1) return ['#f6d365', '#eb8c34', '#c98a1b'];
+  if (rank === 2) return ['#e2ebf0', '#9bb0c9', '#6c839e'];
+  if (rank === 3) return ['#ffecd2', '#e8997d', '#c26d51'];
+  return ['#ff9ebb', '#d23c6d', '#8e1d49'];
+}
+
+async function generateUserRankCanvas(idx) {
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  const entry = CONFIG.supportersList[idx];
+  const name = entry[0];
+  const count = entry[1];
+  const rank = idx + 1;
+  const totalSupporters = CONFIG.supportersList.length;
+
+  const [avatarImg, posterImg] = await Promise.all([
+    loadShareImage(`Donators/${safeFile(name)}.jpg`),
+    loadShareImage('Pics/poster.jpg')
+  ]);
+
+  const W = 1080, H = 1350;
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  drawCardBackground(ctx, W, H, posterImg);
+
+  // Top Event Pill
+  drawRoundedRect(ctx, W / 2 - 310, 74, 620, 52, 26);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+  ctx.strokeStyle = '#f6d8e2';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.fillStyle = '#8e1d49';
+  ctx.font = '600 22px "Prompt", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🗳️ BNK48 & CGM48 General Election 2026', W / 2, 108);
+
+  // Title
+  ctx.fillStyle = '#8e1d49';
+  ctx.font = '700 62px "Mali", cursive';
+  ctx.fillText('Hall of ผู้ประสบภัย', W / 2, 205);
+
+  ctx.fillStyle = '#d23c6d';
+  ctx.font = '700 22px "Prompt", sans-serif';
+  ctx.fillText('L · GE2026   |   L TRAIN TO DREAM', W / 2, 248);
+
+  // Main White Profile Card
+  ctx.save();
+  ctx.shadowColor = 'rgba(142, 29, 73, 0.14)';
+  ctx.shadowBlur = 45;
+  ctx.shadowOffsetY = 18;
+  drawRoundedRect(ctx, 90, 290, W - 180, 740, 44);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+  ctx.fill();
+  ctx.restore();
+
+  drawRoundedRect(ctx, 90, 290, W - 180, 740, 44);
+  ctx.strokeStyle = '#f6d8e2';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Avatar Ring + Avatar
+  const cx = W / 2, cy = 495, avaR = 142;
+  const [c1, c2, c3] = getRankColors(rank);
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(210, 60, 109, 0.25)';
+  ctx.shadowBlur = 32;
+  ctx.beginPath();
+  ctx.arc(cx, cy, avaR + 14, 0, Math.PI * 2);
+  const ringGrad = ctx.createLinearGradient(cx - avaR, cy - avaR, cx + avaR, cy + avaR);
+  ringGrad.addColorStop(0, c1);
+  ringGrad.addColorStop(1, c2);
+  ctx.fillStyle = ringGrad;
+  ctx.fill();
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, avaR + 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+
+  drawCircularImage(ctx, avatarImg, cx, cy, avaR);
+
+  // Rank Badge under Avatar
+  const badgeW = 190, badgeH = 58;
+  drawRoundedRect(ctx, cx - badgeW / 2, cy + avaR - 26, badgeW, badgeH, 29);
+  const badgeGrad = ctx.createLinearGradient(cx - 90, cy + avaR - 26, cx + 90, cy + avaR + 32);
+  badgeGrad.addColorStop(0, c2);
+  badgeGrad.addColorStop(1, c3);
+  ctx.fillStyle = badgeGrad;
+  ctx.fill();
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = '#ffffff';
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '800 28px "Prompt", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`RANK #${rank}`, cx, cy + avaR + 12);
+
+  // User Name
+  ctx.fillStyle = '#5c1a33';
+  ctx.font = '700 50px "Mali", "Prompt", sans-serif';
+  const displayName = fitCanvasText(ctx, name, 760);
+  ctx.fillText(displayName, cx, 755);
+
+  ctx.fillStyle = '#a06b80';
+  ctx.font = '600 23px "Prompt", sans-serif';
+  ctx.fillText('ผู้ร่วมส่งแอลสู่ความฝันอันดับที่ 4 🩷🐈‍⬛', cx, 802);
+
+  // Stats Dual Box
+  const statY = 840, statH = 140;
+  drawRoundedRect(ctx, 145, statY, 375, statH, 26);
+  ctx.fillStyle = '#fff7f9';
+  ctx.fill();
+  ctx.strokeStyle = '#f6d8e2';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  drawRoundedRect(ctx, 560, statY, 375, statH, 26);
+  ctx.fillStyle = '#fff7f9';
+  ctx.fill();
+  ctx.strokeStyle = '#f6d8e2';
+  ctx.stroke();
+
+  ctx.fillStyle = '#a06b80';
+  ctx.font = '600 20px "Prompt", sans-serif';
+  ctx.fillText('อันดับผู้สนับสนุน', 332, statY + 46);
+  ctx.fillText('จำนวนครั้งที่โดเนท', 747, statY + 46);
+
+  ctx.fillStyle = '#d23c6d';
+  ctx.font = '800 44px "Prompt", sans-serif';
+  ctx.fillText(`#${rank} / ${totalSupporters}`, 332, statY + 105);
+  ctx.fillText(`${count} ครั้ง`, 747, statY + 105);
+
+  // Bottom Banner with L's Poster
+  drawRoundedRect(ctx, 90, 1065, W - 180, 175, 32);
+  const footGrad = ctx.createLinearGradient(90, 1065, W - 90, 1240);
+  footGrad.addColorStop(0, '#d23c6d');
+  footGrad.addColorStop(1, '#8e1d49');
+  ctx.fillStyle = footGrad;
+  ctx.fill();
+
+  if (posterImg) {
+    drawCircularImage(ctx, posterImg, 195, 1152, 66);
+    ctx.beginPath();
+    ctx.arc(195, 1152, 66, 0, Math.PI * 2);
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+  }
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 34px "Mali", cursive';
+  ctx.fillText('ร่วมส่งแอลสู่อันดับที่ 4 ไปด้วยกัน!', 290, 1138);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+  ctx.font = '500 22px "Prompt", sans-serif';
+  ctx.fillText('แอล สิริกร นิลกษาปน์ (L BNK48) · ltraintodream.vercel.app', 290, 1182);
+
+  // Disclaimer / Timestamp Footer
+  const cleanDisclaimer = (CONFIG.donationDisclaimer || '').replace(/<[^>]*>/g, '').trim();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#8e1d49';
+  ctx.font = '600 20px "Prompt", sans-serif';
+  ctx.fillText(cleanDisclaimer, W / 2, 1295);
+
+  return canvas;
+}
+
+async function generateTopListCanvas(limit) {
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  const list = CONFIG.supportersList.slice(0, limit);
+
+  const [posterImg, ...avatars] = await Promise.all([
+    loadShareImage('Pics/poster.jpg'),
+    ...list.map(item => loadShareImage(`Donators/${safeFile(item[0])}.jpg`))
+  ]);
+
+  const W = 1080;
+  const H = limit <= 10 ? 1520 : 1860;
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  drawCardBackground(ctx, W, H, posterImg);
+
+  // Header Banner with L's Poster
+  ctx.fillStyle = '#8e1d49';
+  ctx.font = '700 22px "Prompt", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🗳️ BNK48 & CGM48 General Election 2026 · L TRAIN TO DREAM', W / 2, 88);
+
+  ctx.fillStyle = '#8e1d49';
+  ctx.font = '700 58px "Mali", cursive';
+  ctx.fillText(`Hall of ผู้ประสบภัย · TOP ${limit}`, W / 2, 162);
+
+  const cleanDisclaimer = (CONFIG.donationDisclaimer || '').replace(/<[^>]*>/g, '').trim();
+  ctx.fillStyle = '#d23c6d';
+  ctx.font = '600 21px "Prompt", sans-serif';
+  ctx.fillText(cleanDisclaimer, W / 2, 204);
+
+  // Top 3 Podium Cards
+  const podiumOrder = [1, 0, 2]; // 2nd, 1st, 3rd
+  const cardWidths = [275, 310, 275];
+  const cardX = [75, 385, 730];
+  const cardY = [265, 235, 265];
+  const cardH = [330, 360, 330];
+
+  podiumOrder.forEach((idx, pos) => {
+    if (!list[idx]) return;
+    const rank = idx + 1;
+    const [name, count] = list[idx];
+    const x = cardX[pos], y = cardY[pos], w = cardWidths[pos], h = cardH[pos];
+    const [c1, c2, c3] = getRankColors(rank);
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(142, 29, 73, 0.12)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 8;
+    drawRoundedRect(ctx, x, y, w, h, 30);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+    ctx.restore();
+
+    drawRoundedRect(ctx, x, y, w, h, 30);
+    ctx.strokeStyle = c2;
+    ctx.lineWidth = rank === 1 ? 4 : 2.5;
+    ctx.stroke();
+
+    const avaR = rank === 1 ? 74 : 62;
+    const cx = x + w / 2;
+    const cy = y + (rank === 1 ? 112 : 102);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, avaR + 7, 0, Math.PI * 2);
+    const rg = ctx.createLinearGradient(cx - avaR, cy - avaR, cx + avaR, cy + avaR);
+    rg.addColorStop(0, c1);
+    rg.addColorStop(1, c2);
+    ctx.fillStyle = rg;
+    ctx.fill();
+
+    drawCircularImage(ctx, avatars[idx], cx, cy, avaR);
+
+    // Rank Circle Badge
+    ctx.beginPath();
+    ctx.arc(cx, cy + avaR - 4, 22, 0, Math.PI * 2);
+    ctx.fillStyle = c3;
+    ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#ffffff';
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 20px "Prompt", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(String(rank), cx, cy + avaR + 3);
+
+    // Name & Count
+    ctx.fillStyle = '#5c1a33';
+    ctx.font = `700 ${rank === 1 ? 28 : 25}px "Mali", "Prompt", sans-serif`;
+    ctx.fillText(fitCanvasText(ctx, name, w - 32), cx, y + h - 72);
+
+    drawRoundedRect(ctx, cx - 78, y + h - 54, 156, 36, 18);
+    ctx.fillStyle = '#fdeef3';
+    ctx.fill();
+
+    ctx.fillStyle = '#d23c6d';
+    ctx.font = '800 20px "Prompt", sans-serif';
+    ctx.fillText(`รวม ${count} ครั้ง`, cx, y + h - 29);
+  });
+
+  // Ranks 4..limit
+  const rest = list.slice(3);
+  const startY = 630;
+
+  if (limit <= 10) {
+    // Single-column spacious cards for ranks 4 to 10
+    const rowH = 88, gap = 14, rowX = 75, rowW = W - 150;
+    rest.forEach((item, i) => {
+      const idx = i + 3;
+      const rank = idx + 1;
+      const [name, count] = item;
+      const y = startY + i * (rowH + gap);
+
+      drawRoundedRect(ctx, rowX, y, rowW, rowH, 22);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+      ctx.fill();
+      ctx.strokeStyle = '#f6d8e2';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Rank number pill
+      drawRoundedRect(ctx, rowX + 18, y + 20, 56, 48, 14);
+      ctx.fillStyle = '#fdeef3';
+      ctx.fill();
+      ctx.fillStyle = '#8e1d49';
+      ctx.font = '800 24px "Prompt", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(String(rank), rowX + 46, y + 53);
+
+      // Profile Picture
+      drawCircularImage(ctx, avatars[idx], rowX + 124, y + rowH / 2, 31);
+
+      // Name
+      ctx.fillStyle = '#5c1a33';
+      ctx.font = '700 28px "Prompt", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(fitCanvasText(ctx, name, 540), rowX + 174, y + 54);
+
+      // Count
+      ctx.fillStyle = '#d23c6d';
+      ctx.font = '800 26px "Prompt", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(`${count} ครั้ง`, rowX + rowW - 28, y + 54);
+    });
+  } else {
+    // Two-column compact cards for ranks 4 to 20
+    const colW = 452, rowH = 88, gapY = 14, gapX = 26;
+    rest.forEach((item, i) => {
+      const idx = i + 3;
+      const rank = idx + 1;
+      const [name, count] = item;
+      const col = i < 9 ? 0 : 1;
+      const row = i < 9 ? i : i - 9;
+      const x = 75 + col * (colW + gapX);
+      const y = startY + row * (rowH + gapY);
+
+      drawRoundedRect(ctx, x, y, colW, rowH, 20);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+      ctx.fill();
+      ctx.strokeStyle = '#f6d8e2';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Rank badge
+      drawRoundedRect(ctx, x + 14, y + 22, 48, 44, 12);
+      ctx.fillStyle = '#fdeef3';
+      ctx.fill();
+      ctx.fillStyle = '#8e1d49';
+      ctx.font = '800 21px "Prompt", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(String(rank), x + 38, y + 52);
+
+      // Profile Picture
+      drawCircularImage(ctx, avatars[idx], x + 102, y + rowH / 2, 28);
+
+      // Name
+      ctx.fillStyle = '#5c1a33';
+      ctx.font = '700 22px "Prompt", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(fitCanvasText(ctx, name, 195), x + 142, y + 52);
+
+      // Count
+      ctx.fillStyle = '#d23c6d';
+      ctx.font = '800 21px "Prompt", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(`${count} ครั้ง`, x + colW - 18, y + 52);
+    });
+  }
+
+  // Footer Bar with L's Poster
+  const footY = H - 155;
+  drawRoundedRect(ctx, 75, footY, W - 150, 108, 26);
+  const fg = ctx.createLinearGradient(75, footY, W - 75, footY + 108);
+  fg.addColorStop(0, '#d23c6d');
+  fg.addColorStop(1, '#8e1d49');
+  ctx.fillStyle = fg;
+  ctx.fill();
+
+  if (posterImg) {
+    drawCircularImage(ctx, posterImg, 148, footY + 54, 42);
+    ctx.beginPath();
+    ctx.arc(148, footY + 54, 42, 0, Math.PI * 2);
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 28px "Mali", cursive';
+  ctx.fillText('ร่วมส่งแอลสู่อันดับที่ 4 ไปด้วยกัน! 🩷🐈‍⬛', 210, footY + 48);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.font = '500 20px "Prompt", sans-serif';
+  ctx.fillText('แอล สิริกร นิลกษาปน์ (L BNK48) · ltraintodream.vercel.app', 210, footY + 82);
+
+  return canvas;
+}
+
+async function openRankingShareModal(mode, value) {
+  const modal = document.getElementById('shareModal');
+  const titleEl = document.getElementById('shareModalTitle');
+  const loadingEl = document.getElementById('shareLoading');
+  const imgEl = document.getElementById('sharePreviewImg');
+
+  modal.style.display = 'flex';
+  loadingEl.style.display = 'block';
+  imgEl.style.display = 'none';
+
+  if (mode === 'user') {
+    const s = CONFIG.supportersList[value];
+    titleEl.textContent = `อันดับที่ #${value + 1} · ${s[0]}`;
+    currentShareFilename = `L-GE2026-Rank-${value + 1}.png`;
+  } else {
+    titleEl.textContent = `Hall of ผู้ประสบภัย · Top ${value}`;
+    currentShareFilename = `L-GE2026-Top-${value}.png`;
+  }
+
+  const canvas = mode === 'user'
+    ? await generateUserRankCanvas(value)
+    : await generateTopListCanvas(value);
+
+  const dataUrl = canvas.toDataURL('image/png');
+  imgEl.src = dataUrl;
+  loadingEl.style.display = 'none';
+  imgEl.style.display = 'block';
+
+  canvas.toBlob(blob => {
+    currentShareBlob = blob;
+  }, 'image/png');
+}
+
+document.getElementById('btnDownloadCard').addEventListener('click', () => {
+  const imgEl = document.getElementById('sharePreviewImg');
+  if (!imgEl.src) return;
+  const a = document.createElement('a');
+  a.href = imgEl.src;
+  a.download = currentShareFilename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+document.getElementById('btnNativeShare').addEventListener('click', async () => {
+  if (currentShareBlob && navigator.canShare) {
+    const file = new File([currentShareBlob], currentShareFilename, { type: 'image/png' });
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'L · GE2026 Hall of ผู้ประสบภัย',
+          text: 'ร่วมส่งแอลสู่อันดับที่ 4 ใน BNK48 & CGM48 GE2026 ไปด้วยกัน! #LBNK48 #BNK48GE2026'
+        });
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+      }
+    }
+  }
+  document.getElementById('btnDownloadCard').click();
+});
 
   /* ---- countdown ---- */
 const OPEN = new Date(CONFIG.openTime), CLOSE = new Date(CONFIG.closeTime), RESULT = new Date(CONFIG.resultDay);
