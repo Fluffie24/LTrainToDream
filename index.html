@@ -1041,7 +1041,9 @@ function closeShareModal() {
 function loadShareImage(src) {
   return new Promise(resolve => {
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    if (/^https?:\/\//i.test(src)) {
+      img.crossOrigin = 'anonymous';
+    }
     img.onload = () => resolve(img);
     img.onerror = () => resolve(null);
     img.src = src;
@@ -1094,22 +1096,23 @@ function drawCircularImage(ctx, img, cx, cy, radius) {
 }
 
 function drawCardBackground(ctx, W, H, posterImg) {
+  // Richer pastel gradient background
   const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0, '#fff7f9');
-  bg.addColorStop(0.5, '#fde8f0');
-  bg.addColorStop(1, '#f9d2e2');
+  bg.addColorStop(0, '#fff5f8');
+  bg.addColorStop(0.45, '#fde4ee');
+  bg.addColorStop(1, '#f7c6da');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  // Soft decorative glow circles
-  const glow1 = ctx.createRadialGradient(W * 0.85, H * 0.12, 20, W * 0.85, H * 0.12, 360);
-  glow1.addColorStop(0, 'rgba(210, 60, 109, 0.16)');
+  // Soft ambient glow orbs
+  const glow1 = ctx.createRadialGradient(W * 0.85, H * 0.12, 10, W * 0.85, H * 0.12, 420);
+  glow1.addColorStop(0, 'rgba(210, 60, 109, 0.22)');
   glow1.addColorStop(1, 'rgba(210, 60, 109, 0)');
   ctx.fillStyle = glow1;
   ctx.fillRect(0, 0, W, H);
 
-  const glow2 = ctx.createRadialGradient(W * 0.12, H * 0.85, 20, W * 0.12, H * 0.85, 380);
-  glow2.addColorStop(0, 'rgba(201, 162, 75, 0.14)');
+  const glow2 = ctx.createRadialGradient(W * 0.14, H * 0.82, 10, W * 0.14, H * 0.82, 420);
+  glow2.addColorStop(0, 'rgba(201, 162, 75, 0.18)');
   glow2.addColorStop(1, 'rgba(201, 162, 75, 0)');
   ctx.fillStyle = glow2;
   ctx.fillRect(0, 0, W, H);
@@ -1117,29 +1120,37 @@ function drawCardBackground(ctx, W, H, posterImg) {
   // Subtle watermark of L's poster in background
   if (posterImg) {
     ctx.save();
-    ctx.globalAlpha = 0.06;
-    const pw = W * 0.9;
+    ctx.globalAlpha = 0.055;
+    const pw = W * 0.88;
     const ph = pw * (posterImg.height / posterImg.width);
     ctx.drawImage(posterImg, (W - pw) / 2, (H - ph) / 2, pw, ph);
     ctx.restore();
   }
 
-  // Outer frame border
+  // Double decorative frame (outer rose + inner gold accent)
   ctx.save();
-  drawRoundedRect(ctx, 28, 28, W - 56, H - 56, 36);
-  ctx.strokeStyle = 'rgba(210, 60, 109, 0.22)';
+  drawRoundedRect(ctx, 26, 26, W - 52, H - 52, 40);
+  ctx.strokeStyle = 'rgba(210, 60, 109, 0.28)';
   ctx.lineWidth = 3;
+  ctx.stroke();
+
+  drawRoundedRect(ctx, 38, 38, W - 76, H - 76, 32);
+  ctx.setLineDash([10, 10]);
+  ctx.strokeStyle = 'rgba(201, 162, 75, 0.38)';
+  ctx.lineWidth = 2;
   ctx.stroke();
   ctx.restore();
 
-  // Floating sakura accents
+  // Corner & floating sparkles
   const deco = [
-    [95, 110, '🌸', 30], [980, 130, '✨', 28], [110, H - 140, '🩷', 26],
-    [970, H - 150, '🌸', 28], [80, H * 0.48, '✿', 24], [1000, H * 0.52, '🩷', 24]
+    [88, 95, '🌸', 30], [992, 105, '✨', 30],
+    [82, H - 105, '🩷', 26], [995, H - 110, '🌸', 28],
+    [68, H * 0.46, '✦', 24], [1012, H * 0.5, '✦', 24]
   ];
   deco.forEach(([x, y, ch, sz]) => {
     ctx.save();
     ctx.font = `${sz}px "Prompt", sans-serif`;
+    ctx.fillStyle = '#d23c6d';
     ctx.globalAlpha = 0.55;
     ctx.textAlign = 'center';
     ctx.fillText(ch, x, y);
@@ -1147,10 +1158,93 @@ function drawCardBackground(ctx, W, H, posterImg) {
   });
 }
 
+function drawCardHeader(ctx, W, mainTitle) {
+  // Event Tag Pill (moved slightly higher to 54px)
+  drawRoundedRect(ctx, W / 2 - 310, 54, 620, 48, 24);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+  ctx.fill();
+  ctx.strokeStyle = '#f3c6d6';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.fillStyle = '#8e1d49';
+  ctx.font = '600 21px "Prompt", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🗳️ BNK48 & CGM48 General Election 2026', W / 2, 85);
+
+  // Main Title (moved to y = 175 with safe spacing above subtitle ribbon)
+  ctx.save();
+  ctx.shadowColor = 'rgba(210, 60, 109, 0.18)';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 4;
+  ctx.fillStyle = '#8e1d49';
+  ctx.font = '700 56px "Mali", cursive';
+  ctx.fillText(mainTitle, W / 2, 175);
+  ctx.restore();
+
+  // Subtitle Ribbon Pill (placed safely below the title at y = 210)
+  const subW = 340, subH = 38, subY = 210;
+  drawRoundedRect(ctx, W / 2 - subW / 2, subY, subW, subH, 19);
+  const subGrad = ctx.createLinearGradient(W / 2 - subW / 2, subY, W / 2 + subW / 2, subY);
+  subGrad.addColorStop(0, '#fde0ea');
+  subGrad.addColorStop(0.5, '#fff0f5');
+  subGrad.addColorStop(1, '#fde0ea');
+  ctx.fillStyle = subGrad;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(210, 60, 109, 0.3)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  ctx.fillStyle = '#d23c6d';
+  ctx.font = '700 19px "Prompt", sans-serif';
+  ctx.fillText('✦  L TRAIN TO DREAM  ✦', W / 2, subY + 25);
+}
+
+function drawCardFooter(ctx, W, footY, footH, favImg) {
+  ctx.save();
+  ctx.shadowColor = 'rgba(142, 29, 73, 0.25)';
+  ctx.shadowBlur = 28;
+  ctx.shadowOffsetY = 10;
+  drawRoundedRect(ctx, 80, footY, W - 160, footH, 32);
+  const fg = ctx.createLinearGradient(80, footY, W - 80, footY + footH);
+  fg.addColorStop(0, '#d23c6d');
+  fg.addColorStop(0.55, '#b02256');
+  fg.addColorStop(1, '#8e1d49');
+  ctx.fillStyle = fg;
+  ctx.fill();
+  ctx.restore();
+
+  drawRoundedRect(ctx, 84, footY + 4, W - 168, footH - 8, 28);
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  const cy = footY + footH / 2;
+  const favR = Math.round(footH * 0.35);
+  const favX = 165;
+
+  if (favImg) {
+    ctx.beginPath();
+    ctx.arc(favX, cy, favR + 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+    drawCircularImage(ctx, favImg, favX, cy, favR);
+  }
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `700 ${footH >= 140 ? 34 : 30}px "Mali", cursive`;
+  ctx.fillText('สู้ไปด้วยกันเพื่อความฝันของแอล! 🩷🐈‍⬛', favX + favR + 28, cy - 8);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+  ctx.font = `600 ${footH >= 140 ? 22 : 19}px "Prompt", sans-serif`;
+  ctx.fillText('🌐 ltraintodream.vercel.app', favX + favR + 28, cy + 30);
+}
+
 function getRankColors(rank) {
-  if (rank === 1) return ['#f6d365', '#eb8c34', '#c98a1b'];
-  if (rank === 2) return ['#e2ebf0', '#9bb0c9', '#6c839e'];
-  if (rank === 3) return ['#ffecd2', '#e8997d', '#c26d51'];
+  if (rank === 1) return ['#ffe27a', '#f59f2a', '#c97b10'];
+  if (rank === 2) return ['#eef3f7', '#9fb4cc', '#677f9c'];
+  if (rank === 3) return ['#ffd8be', '#e68d6c', '#b85d3d'];
   return ['#ff9ebb', '#d23c6d', '#8e1d49'];
 }
 
@@ -1162,65 +1256,66 @@ async function generateUserRankCanvas(idx) {
   const rank = idx + 1;
   const totalSupporters = CONFIG.supportersList.length;
 
-  const [avatarImg, posterImg] = await Promise.all([
+  const [avatarImg, favImg, posterImg] = await Promise.all([
     loadShareImage(`Donators/${safeFile(name)}.jpg`),
+    loadShareImage('Pics/faviconi.png'),
     loadShareImage('Pics/poster.jpg')
   ]);
 
-  const W = 1080, H = 1350;
+  const W = 1080, H = 1440;
   const canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d');
 
   drawCardBackground(ctx, W, H, posterImg);
+  drawCardHeader(ctx, W, 'Hall of ผู้ประสบภัย');
 
-  // Top Event Pill
-  drawRoundedRect(ctx, W / 2 - 310, 74, 620, 52, 26);
-  ctx.fillStyle = '#ffffff';
-  ctx.fill();
-  ctx.strokeStyle = '#f6d8e2';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  ctx.fillStyle = '#8e1d49';
-  ctx.font = '600 22px "Prompt", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('🗳️ BNK48 & CGM48 General Election 2026', W / 2, 108);
-
-  // Title
-  ctx.fillStyle = '#8e1d49';
-  ctx.font = '700 62px "Mali", cursive';
-  ctx.fillText('Hall of ผู้ประสบภัย', W / 2, 205);
-
-  ctx.fillStyle = '#d23c6d';
-  ctx.font = '700 22px "Prompt", sans-serif';
-  ctx.fillText('L · GE2026   |   L TRAIN TO DREAM', W / 2, 248);
-
-  // Main White Profile Card
+  // Main Profile Card (shifted down to y = 265)
+  const cardX = 80, cardY = 265, cardW = W - 160, cardH = 880;
   ctx.save();
-  ctx.shadowColor = 'rgba(142, 29, 73, 0.14)';
-  ctx.shadowBlur = 45;
-  ctx.shadowOffsetY = 18;
-  drawRoundedRect(ctx, 90, 290, W - 180, 740, 44);
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+  ctx.shadowColor = 'rgba(142, 29, 73, 0.16)';
+  ctx.shadowBlur = 50;
+  ctx.shadowOffsetY = 20;
+  drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 46);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
   ctx.fill();
   ctx.restore();
 
-  drawRoundedRect(ctx, 90, 290, W - 180, 740, 44);
-  ctx.strokeStyle = '#f6d8e2';
+  ctx.save();
+  drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 46);
+  ctx.clip();
+  const topStrip = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + 210);
+  topStrip.addColorStop(0, '#fde8f0');
+  topStrip.addColorStop(0.5, '#fff5f8');
+  topStrip.addColorStop(1, '#fde8f0');
+  ctx.fillStyle = topStrip;
+  ctx.fillRect(cardX, cardY, cardW, 205);
+  ctx.restore();
+
+  drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 46);
+  ctx.strokeStyle = '#f4cbd9';
   ctx.lineWidth = 3;
   ctx.stroke();
 
-  // Avatar Ring + Avatar
-  const cx = W / 2, cy = 495, avaR = 142;
+  // Avatar and details adjusted for new card position
+  const cx = W / 2, cy = 485, avaR = 148;
   const [c1, c2, c3] = getRankColors(rank);
 
   ctx.save();
-  ctx.shadowColor = 'rgba(210, 60, 109, 0.25)';
-  ctx.shadowBlur = 32;
   ctx.beginPath();
-  ctx.arc(cx, cy, avaR + 14, 0, Math.PI * 2);
+  ctx.arc(cx, cy, avaR + 28, 0, Math.PI * 2);
+  ctx.setLineDash([8, 8]);
+  ctx.strokeStyle = c2;
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(210, 60, 109, 0.28)';
+  ctx.shadowBlur = 35;
+  ctx.beginPath();
+  ctx.arc(cx, cy, avaR + 15, 0, Math.PI * 2);
   const ringGrad = ctx.createLinearGradient(cx - avaR, cy - avaR, cx + avaR, cy + avaR);
   ringGrad.addColorStop(0, c1);
   ringGrad.addColorStop(1, c2);
@@ -1235,10 +1330,15 @@ async function generateUserRankCanvas(idx) {
 
   drawCircularImage(ctx, avatarImg, cx, cy, avaR);
 
-  // Rank Badge under Avatar
-  const badgeW = 190, badgeH = 58;
-  drawRoundedRect(ctx, cx - badgeW / 2, cy + avaR - 26, badgeW, badgeH, 29);
-  const badgeGrad = ctx.createLinearGradient(cx - 90, cy + avaR - 26, cx + 90, cy + avaR + 32);
+  if (rank <= 3) {
+    ctx.font = '46px "Prompt", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('👑', cx, cy - avaR - 22);
+  }
+
+  const badgeW = 210, badgeH = 60;
+  drawRoundedRect(ctx, cx - badgeW / 2, cy + avaR - 28, badgeW, badgeH, 30);
+  const badgeGrad = ctx.createLinearGradient(cx - 100, cy + avaR - 28, cx + 100, cy + avaR + 32);
   badgeGrad.addColorStop(0, c2);
   badgeGrad.addColorStop(1, c3);
   ctx.fillStyle = badgeGrad;
@@ -1248,77 +1348,45 @@ async function generateUserRankCanvas(idx) {
   ctx.stroke();
 
   ctx.fillStyle = '#ffffff';
-  ctx.font = '800 28px "Prompt", sans-serif';
+  ctx.font = '800 29px "Prompt", sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(`RANK #${rank}`, cx, cy + avaR + 12);
 
-  // User Name
   ctx.fillStyle = '#5c1a33';
-  ctx.font = '700 50px "Mali", "Prompt", sans-serif';
-  const displayName = fitCanvasText(ctx, name, 760);
+  ctx.font = '700 54px "Mali", "Prompt", sans-serif';
+  const displayName = fitCanvasText(ctx, name, 780);
   ctx.fillText(displayName, cx, 755);
 
   ctx.fillStyle = '#a06b80';
-  ctx.font = '600 23px "Prompt", sans-serif';
-  ctx.fillText('ผู้ร่วมส่งแอลสู่ความฝันอันดับที่ 4 🩷🐈‍⬛', cx, 802);
+  ctx.font = '600 24px "Prompt", sans-serif';
+  ctx.fillText('ผู้ร่วมส่งแอลสู่ความฝันอันดับที่ 4 🩷🐈‍⬛', cx, 808);
 
-  // Stats Dual Box
-  const statY = 840, statH = 140;
-  drawRoundedRect(ctx, 145, statY, 375, statH, 26);
-  ctx.fillStyle = '#fff7f9';
-  ctx.fill();
-  ctx.strokeStyle = '#f6d8e2';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  drawRoundedRect(ctx, 560, statY, 375, statH, 26);
-  ctx.fillStyle = '#fff7f9';
-  ctx.fill();
-  ctx.strokeStyle = '#f6d8e2';
-  ctx.stroke();
-
-  ctx.fillStyle = '#a06b80';
-  ctx.font = '600 20px "Prompt", sans-serif';
-  ctx.fillText('อันดับผู้สนับสนุน', 332, statY + 46);
-  ctx.fillText('จำนวนครั้งที่โดเนท', 747, statY + 46);
-
-  ctx.fillStyle = '#d23c6d';
-  ctx.font = '800 44px "Prompt", sans-serif';
-  ctx.fillText(`#${rank} / ${totalSupporters}`, 332, statY + 105);
-  ctx.fillText(`${count} ครั้ง`, 747, statY + 105);
-
-  // Bottom Banner with L's Poster
-  drawRoundedRect(ctx, 90, 1065, W - 180, 175, 32);
-  const footGrad = ctx.createLinearGradient(90, 1065, W - 90, 1240);
-  footGrad.addColorStop(0, '#d23c6d');
-  footGrad.addColorStop(1, '#8e1d49');
-  ctx.fillStyle = footGrad;
-  ctx.fill();
-
-  if (posterImg) {
-    drawCircularImage(ctx, posterImg, 195, 1152, 66);
-    ctx.beginPath();
-    ctx.arc(195, 1152, 66, 0, Math.PI * 2);
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 4;
+  const statY = 855, statH = 185;
+  [
+    { x: 135, label: '🏆 อันดับผู้สนับสนุน', val: `#${rank} / ${totalSupporters}` },
+    { x: 560, label: '💖 จำนวนครั้งที่โดเนท', val: `${count} ครั้ง` }
+  ].forEach(box => {
+    const bgBox = ctx.createLinearGradient(box.x, statY, box.x, statY + statH);
+    bgBox.addColorStop(0, '#fff9fb');
+    bgBox.addColorStop(1, '#fdeef4');
+    drawRoundedRect(ctx, box.x, statY, 385, statH, 28);
+    ctx.fillStyle = bgBox;
+    ctx.fill();
+    ctx.strokeStyle = '#f3cddc';
+    ctx.lineWidth = 2.5;
     ctx.stroke();
-  }
 
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '700 34px "Mali", cursive';
-  ctx.fillText('ร่วมส่งแอลสู่อันดับที่ 4 ไปด้วยกัน!', 290, 1138);
+    ctx.fillStyle = '#965d74';
+    ctx.font = '600 22px "Prompt", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(box.label, box.x + 192.5, statY + 56);
 
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-  ctx.font = '500 22px "Prompt", sans-serif';
-  ctx.fillText('แอล สิริกร นิลกษาปน์ (L BNK48) · ltraintodream.vercel.app', 290, 1182);
+    ctx.fillStyle = '#d23c6d';
+    ctx.font = '800 48px "Prompt", sans-serif';
+    ctx.fillText(box.val, box.x + 192.5, statY + 132);
+  });
 
-  // Disclaimer / Timestamp Footer
-  const cleanDisclaimer = (CONFIG.donationDisclaimer || '').replace(/<[^>]*>/g, '').trim();
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#8e1d49';
-  ctx.font = '600 20px "Prompt", sans-serif';
-  ctx.fillText(cleanDisclaimer, W / 2, 1295);
+  drawCardFooter(ctx, W, 1175, 175, favImg);
 
   return canvas;
 }
@@ -1327,41 +1395,28 @@ async function generateTopListCanvas(limit) {
   if (document.fonts && document.fonts.ready) await document.fonts.ready;
   const list = CONFIG.supportersList.slice(0, limit);
 
-  const [posterImg, ...avatars] = await Promise.all([
+  const [favImg, posterImg, ...avatars] = await Promise.all([
+    loadShareImage('Pics/faviconi.png'),
     loadShareImage('Pics/poster.jpg'),
     ...list.map(item => loadShareImage(`Donators/${safeFile(item[0])}.jpg`))
   ]);
 
-  const W = 1080;
-  const H = limit <= 10 ? 1520 : 1860;
+  const W = 1080, H = 1440;
   const canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d');
 
   drawCardBackground(ctx, W, H, posterImg);
+  drawCardHeader(ctx, W, `Hall of ผู้ประสบภัย · TOP ${limit}`);
 
-  // Header Banner with L's Poster
-  ctx.fillStyle = '#8e1d49';
-  ctx.font = '700 22px "Prompt", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('🗳️ BNK48 & CGM48 General Election 2026 · L TRAIN TO DREAM', W / 2, 88);
-
-  ctx.fillStyle = '#8e1d49';
-  ctx.font = '700 58px "Mali", cursive';
-  ctx.fillText(`Hall of ผู้ประสบภัย · TOP ${limit}`, W / 2, 162);
-
-  const cleanDisclaimer = (CONFIG.donationDisclaimer || '').replace(/<[^>]*>/g, '').trim();
-  ctx.fillStyle = '#d23c6d';
-  ctx.font = '600 21px "Prompt", sans-serif';
-  ctx.fillText(cleanDisclaimer, W / 2, 204);
-
-  // Top 3 Podium Cards
-  const podiumOrder = [1, 0, 2]; // 2nd, 1st, 3rd
-  const cardWidths = [275, 310, 275];
-  const cardX = [75, 385, 730];
-  const cardY = [265, 235, 265];
-  const cardH = [330, 360, 330];
+  const podiumOrder = [1, 0, 2];
+  const isTop10 = limit <= 10;
+  const cardWidths = [278, 312, 278];
+  const cardX = [75, 384, 727];
+  // Shifted podium down to y = 265 to avoid header overlap
+  const cardY = isTop10 ? [275, 255, 275] : [270, 250, 270];
+  const cardH = isTop10 ? [275, 295, 275] : [250, 270, 250];
 
   podiumOrder.forEach((idx, pos) => {
     if (!list[idx]) return;
@@ -1371,25 +1426,199 @@ async function generateTopListCanvas(limit) {
     const [c1, c2, c3] = getRankColors(rank);
 
     ctx.save();
-    ctx.shadowColor = 'rgba(142, 29, 73, 0.12)';
-    ctx.shadowBlur = 24;
+    ctx.shadowColor = 'rgba(142, 29, 73, 0.14)';
+    ctx.shadowBlur = 22;
     ctx.shadowOffsetY = 8;
-    drawRoundedRect(ctx, x, y, w, h, 30);
-    ctx.fillStyle = '#ffffff';
+    drawRoundedRect(ctx, x, y, w, h, 28);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
     ctx.fill();
     ctx.restore();
 
-    drawRoundedRect(ctx, x, y, w, h, 30);
+    drawRoundedRect(ctx, x, y, w, h, 28);
     ctx.strokeStyle = c2;
     ctx.lineWidth = rank === 1 ? 4 : 2.5;
     ctx.stroke();
 
-    const avaR = rank === 1 ? 74 : 62;
+    const avaR = rank === 1 ? (isTop10 ? 60 : 54) : (isTop10 ? 50 : 45);
     const cx = x + w / 2;
-    const cy = y + (rank === 1 ? 112 : 102);
+    const cy = y + (rank === 1 ? (isTop10 ? 88 : 80) : (isTop10 ? 78 : 72));
 
     ctx.beginPath();
-    ctx.arc(cx, cy, avaR + 7, 0, Math.PI * 2);
+    ctx.arc(cx, cy, avaR + 6, 0, Math.PI * 2);
+    const rg = ctx.createLinearGradient(cx - avaR, cy - avaR, cx + avaR, cy + avaR);
+    rg.addColorStop(0, c1);
+    rg.addColorStop(1, c2);
+    ctx.fillStyle = rg;
+    ctx.fill();
+
+    drawCircularImage(ctx, avatars[idx], cx, cy, avaR);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy + avaR - 2, 18, 0, Math.PI * 2);
+    ctx.fillStyle = c3;
+    ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#ffffff';
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 17px "Prompt", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(String(rank), cx, cy + avaR + 4);
+
+    ctx.fillStyle = '#5c1a33';
+    ctx.font = `700 ${rank === 1 ? 24 : 21}px "Mali", "Prompt", sans-serif`;
+    ctx.fillText(fitCanvasText(ctx, name, w - 28), cx, y + h - 54);
+
+    drawRoundedRect(ctx, cx - 72, y + h - 42, 144, 30, 15);
+    ctx.fillStyle = '#fdeef3';
+    ctx.fill();
+
+    ctx.fillStyle = '#d23c6d';
+    ctx.font = '800 17px "Prompt", sans-serif';
+    ctx.fillText(`รวม ${count} ครั้ง`, cx, y + h - 21);
+  });
+
+  const rest = list.slice(3);
+
+  if (isTop10) {
+    const startY = 585, rowH = 72, gap = 10, rowX = 75, rowW = W - 150;
+    rest.forEach((item, i) => {
+      const idx = i + 3;
+      const rank = idx + 1;
+      const [name, count] = item;
+      const y = startY + i * (rowH + gap);
+
+      drawRoundedRect(ctx, rowX, y, rowW, rowH, 18);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+      ctx.fill();
+      ctx.strokeStyle = '#f5d0de';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      drawRoundedRect(ctx, rowX + 16, y + 14, 48, 44, 12);
+      ctx.fillStyle = '#fdeef3';
+      ctx.fill();
+      ctx.fillStyle = '#8e1d49';
+      ctx.font = '800 21px "Prompt", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(String(rank), rowX + 40, y + 43);
+
+      drawCircularImage(ctx, avatars[idx], rowX + 108, y + rowH / 2, 26);
+
+      ctx.fillStyle = '#5c1a33';
+      ctx.font = '700 24px "Prompt", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(fitCanvasText(ctx, name, 540), rowX + 152, y + 44);
+
+      drawRoundedRect(ctx, rowX + rowW - 155, y + 16, 138, 40, 20);
+      ctx.fillStyle = '#fff5f8';
+      ctx.fill();
+      ctx.fillStyle = '#d23c6d';
+      ctx.font = '800 22px "Prompt", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${count} ครั้ง`, rowX + rowW - 86, y + 43);
+    });
+  } else {
+    const startY = 548, colW = 452, rowH = 58, gapY = 8, gapX = 26;
+    rest.forEach((item, i) => {
+      const idx = i + 3;
+      const rank = idx + 1;
+      const [name, count] = item;
+      const col = i < 9 ? 0 : 1;
+      const row = i < 9 ? i : i - 9;
+      const x = 75 + col * (colW + gapX);
+      const y = startY + row * (rowH + gapY);
+
+      drawRoundedRect(ctx, x, y, colW, rowH, 15);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+      ctx.fill();
+      ctx.strokeStyle = '#f5d0de';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+
+      drawRoundedRect(ctx, x + 10, y + 10, 40, 38, 10);
+      ctx.fillStyle = '#fdeef3';
+      ctx.fill();
+      ctx.fillStyle = '#8e1d49';
+      ctx.font = '800 18px "Prompt", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(String(rank), x + 30, y + 36);
+
+      drawCircularImage(ctx, avatars[idx], x + 82, y + rowH / 2, 21);
+
+      ctx.fillStyle = '#5c1a33';
+      ctx.font = '700 19px "Prompt", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(fitCanvasText(ctx, name, 210), x + 115, y + 36);
+
+      ctx.fillStyle = '#d23c6d';
+      ctx.font = '800 18px "Prompt", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(`${count} ครั้ง`, x + colW - 16, y + 36);
+    });
+  }
+
+  drawCardFooter(ctx, W, 1228, 142, favImg);
+
+  return canvas;
+}
+
+async function generateTopListCanvas(limit) {
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  const list = CONFIG.supportersList.slice(0, limit);
+
+  const [favImg, posterImg, ...avatars] = await Promise.all([
+    loadShareImage('Pics/faviconi.png'),
+    loadShareImage('Pics/poster.jpg'),
+    ...list.map(item => loadShareImage(`Donators/${safeFile(item[0])}.jpg`))
+  ]);
+
+  // Locked 3:4 Aspect Ratio (1080 x 1440) for both Top 10 and Top 20
+  const W = 1080, H = 1440;
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  drawCardBackground(ctx, W, H, posterImg);
+  drawCardHeader(ctx, W, `Hall of ผู้ประสบภัย · TOP ${limit}`);
+
+  // Top 3 Podium Cards
+  const podiumOrder = [1, 0, 2]; // 2nd, 1st, 3rd
+  const isTop10 = limit <= 10;
+  const cardWidths = [278, 312, 278];
+  const cardX = [75, 384, 727];
+  const cardY = isTop10 ? [306, 284, 306] : [300, 280, 300];
+  const cardH = isTop10 ? [285, 307, 285] : [262, 282, 262];
+
+  podiumOrder.forEach((idx, pos) => {
+    if (!list[idx]) return;
+    const rank = idx + 1;
+    const [name, count] = list[idx];
+    const x = cardX[pos], y = cardY[pos], w = cardWidths[pos], h = cardH[pos];
+    const [c1, c2, c3] = getRankColors(rank);
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(142, 29, 73, 0.14)';
+    ctx.shadowBlur = 22;
+    ctx.shadowOffsetY = 8;
+    drawRoundedRect(ctx, x, y, w, h, 28);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
+    ctx.fill();
+    ctx.restore();
+
+    drawRoundedRect(ctx, x, y, w, h, 28);
+    ctx.strokeStyle = c2;
+    ctx.lineWidth = rank === 1 ? 4 : 2.5;
+    ctx.stroke();
+
+    const avaR = rank === 1 ? (isTop10 ? 64 : 58) : (isTop10 ? 54 : 49);
+    const cx = x + w / 2;
+    const cy = y + (rank === 1 ? (isTop10 ? 94 : 86) : (isTop10 ? 84 : 78));
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, avaR + 6, 0, Math.PI * 2);
     const rg = ctx.createLinearGradient(cx - avaR, cy - avaR, cx + avaR, cy + avaR);
     rg.addColorStop(0, c1);
     rg.addColorStop(1, c2);
@@ -1400,7 +1629,7 @@ async function generateTopListCanvas(limit) {
 
     // Rank Circle Badge
     ctx.beginPath();
-    ctx.arc(cx, cy + avaR - 4, 22, 0, Math.PI * 2);
+    ctx.arc(cx, cy + avaR - 2, 19, 0, Math.PI * 2);
     ctx.fillStyle = c3;
     ctx.fill();
     ctx.lineWidth = 3;
@@ -1408,71 +1637,73 @@ async function generateTopListCanvas(limit) {
     ctx.stroke();
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = '800 20px "Prompt", sans-serif';
+    ctx.font = '800 18px "Prompt", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(String(rank), cx, cy + avaR + 3);
+    ctx.fillText(String(rank), cx, cy + avaR + 4);
 
     // Name & Count
     ctx.fillStyle = '#5c1a33';
-    ctx.font = `700 ${rank === 1 ? 28 : 25}px "Mali", "Prompt", sans-serif`;
-    ctx.fillText(fitCanvasText(ctx, name, w - 32), cx, y + h - 72);
+    ctx.font = `700 ${rank === 1 ? 25 : 22}px "Mali", "Prompt", sans-serif`;
+    ctx.fillText(fitCanvasText(ctx, name, w - 28), cx, y + h - 58);
 
-    drawRoundedRect(ctx, cx - 78, y + h - 54, 156, 36, 18);
+    drawRoundedRect(ctx, cx - 74, y + h - 44, 148, 32, 16);
     ctx.fillStyle = '#fdeef3';
     ctx.fill();
 
     ctx.fillStyle = '#d23c6d';
-    ctx.font = '800 20px "Prompt", sans-serif';
-    ctx.fillText(`รวม ${count} ครั้ง`, cx, y + h - 29);
+    ctx.font = '800 18px "Prompt", sans-serif';
+    ctx.fillText(`รวม ${count} ครั้ง`, cx, y + h - 22);
   });
 
   // Ranks 4..limit
   const rest = list.slice(3);
-  const startY = 630;
 
-  if (limit <= 10) {
-    // Single-column spacious cards for ranks 4 to 10
-    const rowH = 88, gap = 14, rowX = 75, rowW = W - 150;
+  if (isTop10) {
+    // Ranks 4..10 (7 rows) fitted neatly into 1080x1440
+    const startY = 616, rowH = 74, gap = 11, rowX = 75, rowW = W - 150;
     rest.forEach((item, i) => {
       const idx = i + 3;
       const rank = idx + 1;
       const [name, count] = item;
       const y = startY + i * (rowH + gap);
 
-      drawRoundedRect(ctx, rowX, y, rowW, rowH, 22);
+      drawRoundedRect(ctx, rowX, y, rowW, rowH, 20);
       ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
       ctx.fill();
-      ctx.strokeStyle = '#f6d8e2';
+      ctx.strokeStyle = '#f5d0de';
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Rank number pill
-      drawRoundedRect(ctx, rowX + 18, y + 20, 56, 48, 14);
+      // Rank pill
+      drawRoundedRect(ctx, rowX + 16, y + 15, 52, 44, 13);
       ctx.fillStyle = '#fdeef3';
       ctx.fill();
       ctx.fillStyle = '#8e1d49';
-      ctx.font = '800 24px "Prompt", sans-serif';
+      ctx.font = '800 22px "Prompt", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(String(rank), rowX + 46, y + 53);
+      ctx.fillText(String(rank), rowX + 42, y + 45);
 
       // Profile Picture
-      drawCircularImage(ctx, avatars[idx], rowX + 124, y + rowH / 2, 31);
+      drawCircularImage(ctx, avatars[idx], rowX + 112, y + rowH / 2, 27);
 
       // Name
       ctx.fillStyle = '#5c1a33';
-      ctx.font = '700 28px "Prompt", sans-serif';
+      ctx.font = '700 25px "Prompt", sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText(fitCanvasText(ctx, name, 540), rowX + 174, y + 54);
+      ctx.fillText(fitCanvasText(ctx, name, 540), rowX + 158, y + 46);
 
-      // Count
+      // Count Pill
+      drawRoundedRect(ctx, rowX + rowW - 165, y + 17, 145, 40, 20);
+      ctx.fillStyle = '#fff5f8';
+      ctx.fill();
       ctx.fillStyle = '#d23c6d';
-      ctx.font = '800 26px "Prompt", sans-serif';
-      ctx.textAlign = 'right';
-      ctx.fillText(`${count} ครั้ง`, rowX + rowW - 28, y + 54);
+      ctx.font = '800 23px "Prompt", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${count} ครั้ง`, rowX + rowW - 92, y + 45);
     });
   } else {
-    // Two-column compact cards for ranks 4 to 20
-    const colW = 452, rowH = 88, gapY = 14, gapX = 26;
+    // Ranks 4..20 (17 items -> 2 columns of 9 and 8 rows) fitted neatly into 1080x1440
+    const startY = 586, colW = 452, rowH = 60, gapY = 9, gapX = 26;
     rest.forEach((item, i) => {
       const idx = i + 3;
       const rank = idx + 1;
@@ -1482,65 +1713,41 @@ async function generateTopListCanvas(limit) {
       const x = 75 + col * (colW + gapX);
       const y = startY + row * (rowH + gapY);
 
-      drawRoundedRect(ctx, x, y, colW, rowH, 20);
+      drawRoundedRect(ctx, x, y, colW, rowH, 16);
       ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
       ctx.fill();
-      ctx.strokeStyle = '#f6d8e2';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#f5d0de';
+      ctx.lineWidth = 1.8;
       ctx.stroke();
 
       // Rank badge
-      drawRoundedRect(ctx, x + 14, y + 22, 48, 44, 12);
+      drawRoundedRect(ctx, x + 10, y + 11, 42, 38, 10);
       ctx.fillStyle = '#fdeef3';
       ctx.fill();
       ctx.fillStyle = '#8e1d49';
-      ctx.font = '800 21px "Prompt", sans-serif';
+      ctx.font = '800 19px "Prompt", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(String(rank), x + 38, y + 52);
+      ctx.fillText(String(rank), x + 31, y + 37);
 
       // Profile Picture
-      drawCircularImage(ctx, avatars[idx], x + 102, y + rowH / 2, 28);
+      drawCircularImage(ctx, avatars[idx], x + 84, y + rowH / 2, 22);
 
       // Name
       ctx.fillStyle = '#5c1a33';
-      ctx.font = '700 22px "Prompt", sans-serif';
+      ctx.font = '700 20px "Prompt", sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText(fitCanvasText(ctx, name, 195), x + 142, y + 52);
+      ctx.fillText(fitCanvasText(ctx, name, 210), x + 118, y + 37);
 
       // Count
       ctx.fillStyle = '#d23c6d';
-      ctx.font = '800 21px "Prompt", sans-serif';
+      ctx.font = '800 19px "Prompt", sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText(`${count} ครั้ง`, x + colW - 18, y + 52);
+      ctx.fillText(`${count} ครั้ง`, x + colW - 16, y + 37);
     });
   }
 
-  // Footer Bar with L's Poster
-  const footY = H - 155;
-  drawRoundedRect(ctx, 75, footY, W - 150, 108, 26);
-  const fg = ctx.createLinearGradient(75, footY, W - 75, footY + 108);
-  fg.addColorStop(0, '#d23c6d');
-  fg.addColorStop(1, '#8e1d49');
-  ctx.fillStyle = fg;
-  ctx.fill();
-
-  if (posterImg) {
-    drawCircularImage(ctx, posterImg, 148, footY + 54, 42);
-    ctx.beginPath();
-    ctx.arc(148, footY + 54, 42, 0, Math.PI * 2);
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-  }
-
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '700 28px "Mali", cursive';
-  ctx.fillText('ร่วมส่งแอลสู่อันดับที่ 4 ไปด้วยกัน! 🩷🐈‍⬛', 210, footY + 48);
-
-  ctx.fillStyle = 'rgba(255,255,255,0.92)';
-  ctx.font = '500 20px "Prompt", sans-serif';
-  ctx.fillText('แอล สิริกร นิลกษาปน์ (L BNK48) · ltraintodream.vercel.app', 210, footY + 82);
+  // Footer Bar with Favicon
+  drawCardFooter(ctx, W, 1236, 128, favImg);
 
   return canvas;
 }
@@ -1597,7 +1804,7 @@ document.getElementById('btnNativeShare').addEventListener('click', async () => 
         await navigator.share({
           files: [file],
           title: 'L · GE2026 Hall of ผู้ประสบภัย',
-          text: 'ร่วมส่งแอลสู่อันดับที่ 4 ใน BNK48 & CGM48 GE2026 ไปด้วยกัน! #LBNK48 #BNK48GE2026'
+          text: 'สู้ไปด้วยกันเพื่อความฝันของแอล! #LBNK48'
         });
         return;
       } catch (err) {
