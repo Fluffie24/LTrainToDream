@@ -1781,18 +1781,19 @@ async function openRankingShareModal(mode, value) {
     currentShareFilename = `L-GE2026-Top-${value}.png`;
   }
 
+  currentShareBlob = null;
+
   const canvas = mode === 'user'
     ? await generateUserRankCanvas(value)
     : await generateTopListCanvas(value);
 
   const dataUrl = canvas.toDataURL('image/png');
+  // wait for the blob so the share button always has it ready
+  currentShareBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
   imgEl.src = dataUrl;
   loadingEl.style.display = 'none';
   imgEl.style.display = 'block';
-
-  canvas.toBlob(blob => {
-    currentShareBlob = blob;
-  }, 'image/png');
 }
 
 document.getElementById('btnDownloadCard').addEventListener('click', () => {
@@ -1806,43 +1807,79 @@ document.getElementById('btnDownloadCard').addEventListener('click', () => {
   a.remove();
 });
 
+function showShareToast(msg, linkUrl) {
+  const old = document.getElementById('shareToast');
+  if (old) old.remove();
+  const t = document.createElement('div');
+  t.id = 'shareToast';
+  t.style.cssText = 'position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:1000;background:#8e1d49;color:#fff;padding:12px 20px;border-radius:16px;font:600 13.5px Prompt,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:90%;text-align:center;line-height:1.6';
+  t.textContent = msg;
+  if (linkUrl) {
+    const a = document.createElement('a');
+    a.href = linkUrl;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = ' เปิด X ↗';
+    a.style.cssText = 'color:#ffe27a;text-decoration:underline;margin-left:6px';
+    t.appendChild(a);
+  }
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 7000);
+}
+
 document.getElementById('btnNativeShare').addEventListener('click', async () => {
   const caption = 'สู้ไปด้วยกันเพื่อความฝันของแอล! #LBNK48';
-  let sharedNatively = false;
+  const xUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(caption)}`;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                   (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
 
-  // 1. Try Native Share (Works natively on iOS / Android)
-  if (currentShareBlob && navigator.canShare) {
-    const file = new File([currentShareBlob], currentShareFilename, { type: 'image/png' });
+  // make sure we have the image blob
+  let blob = currentShareBlob;
+  if (!blob) {
+    const imgEl = document.getElementById('sharePreviewImg');
+    if (!imgEl.src) return;
+    blob = await (await fetch(imgEl.src)).blob();
+  }
+
+  // 1) Mobile: native share sheet (pick X there, image attached)
+  if (isMobile && navigator.canShare) {
+    const file = new File([blob], currentShareFilename, { type: 'image/png' });
     if (navigator.canShare({ files: [file] })) {
       try {
-        await navigator.share({
-          files: [file],
-          text: caption
-        });
-        sharedNatively = true;
+        await navigator.share({ files: [file], text: caption });
+        return;
       } catch (err) {
-        if (err.name === 'AbortError') return; // User cancelled
+        if (err.name === 'AbortError') return; // user cancelled
         console.warn('Share failed:', err);
       }
     }
   }
 
-  // 2. Desktop Fallback
-  if (!sharedNatively) {
+  // 2) Desktop (or share unsupported): copy image, then open X compose
+  let copied = false;
+  if (!isMobile && navigator.clipboard && window.ClipboardItem) {
     try {
-      // Attempt to copy image to clipboard for easy pasting
-      await navigator.clipboard.write([
-        new ClipboardItem({ 'image/png': currentShareBlob })
-      ]);
-      alert('คัดลอกรูปภาพแล้ว! สามารถกดวาง (Paste) ลงใน X ได้เลย 📸');
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      copied = true;
     } catch (e) {
-      // If clipboard fails, fallback to standard download
-      document.getElementById('btnDownloadCard').click();
+      console.warn('Clipboard failed:', e);
     }
-    
-    // Open X Intent
-    const xUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(caption)}`;
-    window.open(xUrl, '_blank');
+  }
+
+  // if the image could not be copied, save it so the user can attach it manually
+  if (!copied) {
+    document.getElementById('btnDownloadCard').click();
+  }
+
+  const w = window.open(xUrl, '_blank');
+
+  if (!w) {
+    // popup was blocked, give the user a tappable link instead
+    showShareToast(copied ? 'คัดลอกรูปแล้ว' : 'บันทึกรูปแล้ว', xUrl);
+  } else {
+    showShareToast(copied
+      ? 'คัดลอกรูปแล้ว! กด Ctrl+V (หรือวาง) ในช่องโพสต์ X ได้เลย 📸'
+      : 'บันทึกรูปแล้ว! แนบรูปในโพสต์ X ได้เลย 📸');
   }
 });
 
