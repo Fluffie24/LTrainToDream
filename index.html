@@ -970,10 +970,18 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
       <img id="sharePreviewImg" alt="Ranking Share Card" style="display:none;">
     </div>
     <div class="share-modal-actions">
-      <button type="button" class="btn btn-primary" id="btnDownloadCard">⬇ บันทึกรูปภาพ</button>
-      <button type="button" class="btn btn-ghost" id="btnNativeShare" style="gap: 6px;">
-  <img src="Donators/x.jpg" alt="X" style="width: 16px; height: 16px; border-radius: 4px; object-fit: cover;"> แชร์ไปยัง X
-</button>
+      <button type="button" class="btn btn-ghost" id="btnDownloadCard" style="border-color: var(--muted); color: var(--rose-deep); padding: 11px 18px;">
+        <span style="font-size: 18px; margin-right: 4px;">📥</span> บันทึก
+      </button>
+      <button type="button" class="btn btn-primary" id="btnNativeShare" style="gap: 8px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 24.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        แชร์รูปภาพ
+      </button>
+    </div>
+    <div style="text-align: center; font-size: 11px; color: var(--rose); margin-top: 12px; font-weight: 500;">
+      (หรือแตะค้างที่รูปด้านล่างเพื่อบันทึก)
     </div>
   </div>
 </div>
@@ -1800,26 +1808,42 @@ document.getElementById('btnDownloadCard').addEventListener('click', () => {
 
 document.getElementById('btnNativeShare').addEventListener('click', async () => {
   const caption = 'สู้ไปด้วยกันเพื่อความฝันของแอล! #LBNK48';
-  
+  let sharedNatively = false;
+
+  // 1. Try Native Share (Works natively on iOS / Android)
   if (currentShareBlob && navigator.canShare) {
     const file = new File([currentShareBlob], currentShareFilename, { type: 'image/png' });
     if (navigator.canShare({ files: [file] })) {
       try {
         await navigator.share({
           files: [file],
-          title: 'L · GE2026 Hall of ผู้ประสบภัย',
           text: caption
         });
-        return;
+        sharedNatively = true;
       } catch (err) {
-        if (err.name === 'AbortError') return;
+        if (err.name === 'AbortError') return; // User cancelled
+        console.warn('Share failed:', err);
       }
     }
   }
-  
-  document.getElementById('btnDownloadCard').click();
-  const xUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(caption + '\n\n(แนบรูปที่ระบบบันทึกให้เมื่อกี้ได้เลย! 📸)')}`;
-  window.open(xUrl, '_blank');
+
+  // 2. Desktop Fallback
+  if (!sharedNatively) {
+    try {
+      // Attempt to copy image to clipboard for easy pasting
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': currentShareBlob })
+      ]);
+      alert('คัดลอกรูปภาพแล้ว! สามารถกดวาง (Paste) ลงใน X ได้เลย 📸');
+    } catch (e) {
+      // If clipboard fails, fallback to standard download
+      document.getElementById('btnDownloadCard').click();
+    }
+    
+    // Open X Intent
+    const xUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(caption)}`;
+    window.open(xUrl, '_blank');
+  }
 });
 
   /* ---- countdown ---- */
