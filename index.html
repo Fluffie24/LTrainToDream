@@ -654,7 +654,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 }
 .share-modal-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 .share-modal-actions .btn {
@@ -752,7 +752,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   </div>
   <div id="bgmIcon" style="position:absolute; color:white; font-size:26px; text-shadow:0 2px 6px rgba(0,0,0,0.8); z-index:2; pointer-events:none;">▶</div>
 </div>
-</div><div id="petals" aria-hidden="true"></div>
+<div id="petals" aria-hidden="true"></div>
 
 <header class="topbar">
   <div class="topbar-in">
@@ -972,12 +972,6 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <div class="share-modal-actions">
       <button type="button" class="btn btn-ghost" id="btnDownloadCard" style="border-color: var(--muted); color: var(--rose-deep); padding: 11px 18px;">
         <span style="font-size: 18px; margin-right: 4px;">📥</span> บันทึก
-      </button>
-      <button type="button" class="btn btn-primary" id="btnNativeShare" style="gap: 8px;">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 24.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        แชร์รูปภาพ
       </button>
     </div>
     <div style="text-align: center; font-size: 11px; color: var(--rose); margin-top: 12px; font-weight: 500;">
@@ -1420,182 +1414,7 @@ async function generateTopListCanvas(limit) {
   drawCardBackground(ctx, W, H, posterImg);
   drawCardHeader(ctx, W, `Hall of ผู้ประสบภัย · TOP ${limit}`);
 
-  const podiumOrder = [1, 0, 2];
-  const isTop10 = limit <= 10;
-  const cardWidths = [278, 312, 278];
-  const cardX = [75, 384, 727];
-  // Shifted podium down to y = 265 to avoid header overlap
-  const cardY = isTop10 ? [275, 255, 275] : [270, 250, 270];
-  const cardH = isTop10 ? [275, 295, 275] : [250, 270, 250];
-
-  podiumOrder.forEach((idx, pos) => {
-    if (!list[idx]) return;
-    const rank = idx + 1;
-    const [name, count] = list[idx];
-    const x = cardX[pos], y = cardY[pos], w = cardWidths[pos], h = cardH[pos];
-    const [c1, c2, c3] = getRankColors(rank);
-
-    ctx.save();
-    ctx.shadowColor = 'rgba(142, 29, 73, 0.14)';
-    ctx.shadowBlur = 22;
-    ctx.shadowOffsetY = 8;
-    drawRoundedRect(ctx, x, y, w, h, 28);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
-    ctx.fill();
-    ctx.restore();
-
-    drawRoundedRect(ctx, x, y, w, h, 28);
-    ctx.strokeStyle = c2;
-    ctx.lineWidth = rank === 1 ? 4 : 2.5;
-    ctx.stroke();
-
-    const avaR = rank === 1 ? (isTop10 ? 60 : 54) : (isTop10 ? 50 : 45);
-    const cx = x + w / 2;
-    const cy = y + (rank === 1 ? (isTop10 ? 88 : 80) : (isTop10 ? 78 : 72));
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, avaR + 6, 0, Math.PI * 2);
-    const rg = ctx.createLinearGradient(cx - avaR, cy - avaR, cx + avaR, cy + avaR);
-    rg.addColorStop(0, c1);
-    rg.addColorStop(1, c2);
-    ctx.fillStyle = rg;
-    ctx.fill();
-
-    drawCircularImage(ctx, avatars[idx], cx, cy, avaR);
-
-    ctx.beginPath();
-    ctx.arc(cx, cy + avaR - 2, 18, 0, Math.PI * 2);
-    ctx.fillStyle = c3;
-    ctx.fill();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = '#ffffff';
-    ctx.stroke();
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '800 17px "Prompt", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(String(rank), cx, cy + avaR + 4);
-
-    ctx.fillStyle = '#5c1a33';
-    ctx.font = `700 ${rank === 1 ? 24 : 21}px "Mali", "Prompt", sans-serif`;
-    ctx.fillText(fitCanvasText(ctx, name, w - 28), cx, y + h - 54);
-
-    drawRoundedRect(ctx, cx - 72, y + h - 42, 144, 30, 15);
-    ctx.fillStyle = '#fdeef3';
-    ctx.fill();
-
-    ctx.fillStyle = '#d23c6d';
-    ctx.font = '800 17px "Prompt", sans-serif';
-    ctx.fillText(`รวม ${count} ครั้ง`, cx, y + h - 21);
-  });
-
-  const rest = list.slice(3);
-
-  if (isTop10) {
-    const startY = 585, rowH = 72, gap = 10, rowX = 75, rowW = W - 150;
-    rest.forEach((item, i) => {
-      const idx = i + 3;
-      const rank = idx + 1;
-      const [name, count] = item;
-      const y = startY + i * (rowH + gap);
-
-      drawRoundedRect(ctx, rowX, y, rowW, rowH, 18);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
-      ctx.fill();
-      ctx.strokeStyle = '#f5d0de';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      drawRoundedRect(ctx, rowX + 16, y + 14, 48, 44, 12);
-      ctx.fillStyle = '#fdeef3';
-      ctx.fill();
-      ctx.fillStyle = '#8e1d49';
-      ctx.font = '800 21px "Prompt", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(String(rank), rowX + 40, y + 43);
-
-      drawCircularImage(ctx, avatars[idx], rowX + 108, y + rowH / 2, 26);
-
-      ctx.fillStyle = '#5c1a33';
-      ctx.font = '700 24px "Prompt", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(fitCanvasText(ctx, name, 540), rowX + 152, y + 44);
-
-      drawRoundedRect(ctx, rowX + rowW - 155, y + 16, 138, 40, 20);
-      ctx.fillStyle = '#fff5f8';
-      ctx.fill();
-      ctx.fillStyle = '#d23c6d';
-      ctx.font = '800 22px "Prompt", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${count} ครั้ง`, rowX + rowW - 86, y + 43);
-    });
-  } else {
-    const startY = 548, colW = 452, rowH = 58, gapY = 8, gapX = 26;
-    rest.forEach((item, i) => {
-      const idx = i + 3;
-      const rank = idx + 1;
-      const [name, count] = item;
-      const col = i < 9 ? 0 : 1;
-      const row = i < 9 ? i : i - 9;
-      const x = 75 + col * (colW + gapX);
-      const y = startY + row * (rowH + gapY);
-
-      drawRoundedRect(ctx, x, y, colW, rowH, 15);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
-      ctx.fill();
-      ctx.strokeStyle = '#f5d0de';
-      ctx.lineWidth = 1.8;
-      ctx.stroke();
-
-      drawRoundedRect(ctx, x + 10, y + 10, 40, 38, 10);
-      ctx.fillStyle = '#fdeef3';
-      ctx.fill();
-      ctx.fillStyle = '#8e1d49';
-      ctx.font = '800 18px "Prompt", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(String(rank), x + 30, y + 36);
-
-      drawCircularImage(ctx, avatars[idx], x + 82, y + rowH / 2, 21);
-
-      ctx.fillStyle = '#5c1a33';
-      ctx.font = '700 19px "Prompt", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(fitCanvasText(ctx, name, 210), x + 115, y + 36);
-
-      ctx.fillStyle = '#d23c6d';
-      ctx.font = '800 18px "Prompt", sans-serif';
-      ctx.textAlign = 'right';
-      ctx.fillText(`${count} ครั้ง`, x + colW - 16, y + 36);
-    });
-  }
-
-  drawCardFooter(ctx, W, 1228, 142, favImg);
-
-  return canvas;
-}
-
-async function generateTopListCanvas(limit) {
-  if (document.fonts && document.fonts.ready) await document.fonts.ready;
-  const list = CONFIG.supportersList.slice(0, limit);
-
-  const [favImg, posterImg, ...avatars] = await Promise.all([
-    loadShareImage('Pics/faviconi.png'),
-    loadShareImage('Pics/poster.jpg'),
-    ...list.map(item => loadShareImage(`Donators/${safeFile(item[0])}.jpg`))
-  ]);
-
-  // Locked 3:4 Aspect Ratio (1080 x 1440) for both Top 10 and Top 20
-  const W = 1080, H = 1440;
-  const canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
-  const ctx = canvas.getContext('2d');
-
-  drawCardBackground(ctx, W, H, posterImg);
-  drawCardHeader(ctx, W, `Hall of ผู้ประสบภัย · TOP ${limit}`);
-
-  // Top 3 Podium Cards
-  const podiumOrder = [1, 0, 2]; // 2nd, 1st, 3rd
+  const podiumOrder = [1, 0, 2]; 
   const isTop10 = limit <= 10;
   const cardWidths = [278, 312, 278];
   const cardX = [75, 384, 727];
@@ -1637,7 +1456,6 @@ async function generateTopListCanvas(limit) {
 
     drawCircularImage(ctx, avatars[idx], cx, cy, avaR);
 
-    // Rank Circle Badge
     ctx.beginPath();
     ctx.arc(cx, cy + avaR - 2, 19, 0, Math.PI * 2);
     ctx.fillStyle = c3;
@@ -1651,7 +1469,6 @@ async function generateTopListCanvas(limit) {
     ctx.textAlign = 'center';
     ctx.fillText(String(rank), cx, cy + avaR + 4);
 
-    // Name & Count
     ctx.fillStyle = '#5c1a33';
     ctx.font = `700 ${rank === 1 ? 25 : 22}px "Mali", "Prompt", sans-serif`;
     ctx.fillText(fitCanvasText(ctx, name, w - 28), cx, y + h - 58);
@@ -1665,11 +1482,9 @@ async function generateTopListCanvas(limit) {
     ctx.fillText(`รวม ${count} ครั้ง`, cx, y + h - 22);
   });
 
-  // Ranks 4..limit
   const rest = list.slice(3);
 
   if (isTop10) {
-    // Ranks 4..10 (7 rows) fitted neatly into 1080x1440
     const startY = 616, rowH = 74, gap = 11, rowX = 75, rowW = W - 150;
     rest.forEach((item, i) => {
       const idx = i + 3;
@@ -1684,7 +1499,6 @@ async function generateTopListCanvas(limit) {
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Rank pill
       drawRoundedRect(ctx, rowX + 16, y + 15, 52, 44, 13);
       ctx.fillStyle = '#fdeef3';
       ctx.fill();
@@ -1693,16 +1507,13 @@ async function generateTopListCanvas(limit) {
       ctx.textAlign = 'center';
       ctx.fillText(String(rank), rowX + 42, y + 45);
 
-      // Profile Picture
       drawCircularImage(ctx, avatars[idx], rowX + 112, y + rowH / 2, 27);
 
-      // Name
       ctx.fillStyle = '#5c1a33';
       ctx.font = '700 25px "Prompt", sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText(fitCanvasText(ctx, name, 540), rowX + 158, y + 46);
 
-      // Count Pill
       drawRoundedRect(ctx, rowX + rowW - 165, y + 17, 145, 40, 20);
       ctx.fillStyle = '#fff5f8';
       ctx.fill();
@@ -1712,7 +1523,6 @@ async function generateTopListCanvas(limit) {
       ctx.fillText(`${count} ครั้ง`, rowX + rowW - 92, y + 45);
     });
   } else {
-    // Ranks 4..20 (17 items -> 2 columns of 9 and 8 rows) fitted neatly into 1080x1440
     const startY = 586, colW = 452, rowH = 60, gapY = 9, gapX = 26;
     rest.forEach((item, i) => {
       const idx = i + 3;
@@ -1730,7 +1540,6 @@ async function generateTopListCanvas(limit) {
       ctx.lineWidth = 1.8;
       ctx.stroke();
 
-      // Rank badge
       drawRoundedRect(ctx, x + 10, y + 11, 42, 38, 10);
       ctx.fillStyle = '#fdeef3';
       ctx.fill();
@@ -1739,16 +1548,13 @@ async function generateTopListCanvas(limit) {
       ctx.textAlign = 'center';
       ctx.fillText(String(rank), x + 31, y + 37);
 
-      // Profile Picture
       drawCircularImage(ctx, avatars[idx], x + 84, y + rowH / 2, 22);
 
-      // Name
       ctx.fillStyle = '#5c1a33';
       ctx.font = '700 20px "Prompt", sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText(fitCanvasText(ctx, name, 210), x + 118, y + 37);
 
-      // Count
       ctx.fillStyle = '#d23c6d';
       ctx.font = '800 19px "Prompt", sans-serif';
       ctx.textAlign = 'right';
@@ -1756,7 +1562,6 @@ async function generateTopListCanvas(limit) {
     });
   }
 
-  // Footer Bar with Favicon
   drawCardFooter(ctx, W, 1236, 128, favImg);
 
   return canvas;
@@ -1788,7 +1593,6 @@ async function openRankingShareModal(mode, value) {
     : await generateTopListCanvas(value);
 
   const dataUrl = canvas.toDataURL('image/png');
-  // wait for the blob so the share button always has it ready
   currentShareBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
   imgEl.src = dataUrl;
@@ -1827,61 +1631,6 @@ function showShareToast(msg, linkUrl) {
   setTimeout(() => t.remove(), 7000);
 }
 
-document.getElementById('btnNativeShare').addEventListener('click', async () => {
-  const caption = 'สู้ไปด้วยกันเพื่อความฝันของแอล! #LBNK48';
-  const xUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(caption)}`;
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-                   (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
-
-  // make sure we have the image blob
-  let blob = currentShareBlob;
-  if (!blob) {
-    const imgEl = document.getElementById('sharePreviewImg');
-    if (!imgEl.src) return;
-    blob = await (await fetch(imgEl.src)).blob();
-  }
-
-  // 1) Mobile: native share sheet (pick X there, image attached)
-  if (isMobile && navigator.canShare) {
-    const file = new File([blob], currentShareFilename, { type: 'image/png' });
-    if (navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({ files: [file], text: caption });
-        return;
-      } catch (err) {
-        if (err.name === 'AbortError') return; // user cancelled
-        console.warn('Share failed:', err);
-      }
-    }
-  }
-
-  // 2) Desktop (or share unsupported): copy image, then open X compose
-  let copied = false;
-  if (!isMobile && navigator.clipboard && window.ClipboardItem) {
-    try {
-      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-      copied = true;
-    } catch (e) {
-      console.warn('Clipboard failed:', e);
-    }
-  }
-
-  // if the image could not be copied, save it so the user can attach it manually
-  if (!copied) {
-    document.getElementById('btnDownloadCard').click();
-  }
-
-  const w = window.open(xUrl, '_blank');
-
-  if (!w) {
-    // popup was blocked, give the user a tappable link instead
-    showShareToast(copied ? 'คัดลอกรูปแล้ว' : 'บันทึกรูปแล้ว', xUrl);
-  } else {
-    showShareToast(copied
-      ? 'คัดลอกรูปแล้ว! กด Ctrl+V (หรือวาง) ในช่องโพสต์ X ได้เลย 📸'
-      : 'บันทึกรูปแล้ว! แนบรูปในโพสต์ X ได้เลย 📸');
-  }
-});
 
   /* ---- countdown ---- */
 const OPEN = new Date(CONFIG.openTime), CLOSE = new Date(CONFIG.closeTime), RESULT = new Date(CONFIG.resultDay);
