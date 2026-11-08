@@ -904,6 +904,16 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
       <button type="button" class="btn-share-top alt" onclick="openRankingShareModal('top', 20)">✨ แชร์รูป Top 20</button>
     </div>
   </div>
+  <div class="cd-grid reveal" style="margin-top: 10px; margin-bottom: 40px; gap: 20px;">
+        <div class="cd-unit" style="min-width: 160px; padding: 22px 14px 18px;">
+          <b id="totalPeopleCount">--</b>
+          <span style="font-size: 13.5px;">ผู้ประสบภัยพิบัติ (คน)</span>
+        </div>
+        <div class="cd-unit" style="min-width: 160px; padding: 22px 14px 18px;">
+          <b id="totalDonationCount">--</b>
+          <span style="font-size: 13.5px;">รวมจำนวนครั้งที่โดเนท</span>
+        </div>
+      </div>
   <div class="podium reveal" id="podium"></div>
   <div class="s-table reveal" id="sTable"></div>
 </section>
@@ -999,6 +1009,14 @@ const supportersNote = document.getElementById('supportersNote');
 if (supportersNote) {
   supportersNote.innerHTML = CONFIG.donationDisclaimer || 'ขอขอบคุณทุกการสนับสนุน';
 }
+
+const totalPeople = CONFIG.supportersList.length;
+const totalDonations = CONFIG.supportersList.reduce((sum, item) => sum + item[1], 0);
+
+const elPeople = document.getElementById('totalPeopleCount');
+const elDonations = document.getElementById('totalDonationCount');
+if (elPeople) elPeople.textContent = fmt(totalPeople);
+if (elDonations) elDonations.textContent = fmt(totalDonations);
 
 const escapeHTML = str => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const safeFile = str => encodeURIComponent(str.replace(/[<>:"\/\\|?*]/g, ''));
