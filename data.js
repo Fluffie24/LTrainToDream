@@ -2,7 +2,7 @@ const CONFIG = {
   openTime  : '2026-10-01T12:00:00+07:00',
   closeTime : '2026-11-12T12:00:00+07:00',
   resultDay : '2026-11-14T00:00:00+07:00',
-  donationDisclaimer : '<span style="color: #22c55e;">●</span> อัปเดตล่าสุดเมื่อ 10 พฤศจิกายน 21.18 น.',
+  donationDisclaimer : '<span style="color: #22c55e;">●</span> อัปเดตล่าสุดเมื่อ 10 พฤศจิกายน 21.23 น.',
   supportersList: [
     ["James115", 366],
     ["อาเจ้แอล", 123],
@@ -38,7 +38,7 @@ const CONFIG = {
     ["Ok89", 11],
     ["PH", 20],
     ["N", 71],
-    ["LL8477", 30],
+    ["LL8477", 31],
     ["NINJA", 80],
     ["Mike", 4],
     ["DesyPPL", 1],
