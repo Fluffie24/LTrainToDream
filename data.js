@@ -2,7 +2,7 @@ const CONFIG = {
   openTime  : '2026-10-01T12:00:00+07:00',
   closeTime : '2026-11-12T12:00:00+07:00',
   resultDay : '2026-11-14T00:00:00+07:00',
-  donationDisclaimer : '<span style="color: #22c55e;">●</span> อัปเดตล่าสุดเมื่อ 15 พฤศจิกายน 03.59 น.',
+  donationDisclaimer : '<span style="color: #22c55e;">●</span> อัปเดตล่าสุดเมื่อ 16 พฤศจิกายน 04.22 น.',
   supportersList: [
     ["James115", 374],
     ["อาเจ้แอล", 125],
