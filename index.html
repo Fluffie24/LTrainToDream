@@ -1093,9 +1093,9 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   }
   .boards-modal-box {
     padding: 16px 12px 12px;
-    max-height: 88vh;
     height: 88svh;
     max-height: 88svh;
+    overflow: hidden;
   }
   .boards-modal-head {
     padding-right: 26px;
@@ -1129,8 +1129,28 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   .boards-search {
     padding: 7px 14px;
   }
+  #bonusFilterWrap {
+    margin-top: 8px !important;
+  }
+  .bonus-note-banner {
+    padding: 5px 10px;
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  #bonusFilterTabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    width: 100%;
+  }
+  #bonusFilterTabs .b-tab {
+    padding: 6px 4px;
+    font-size: 11px;
+    text-align: center;
+    white-space: nowrap;
+  }
   .boards-list-wrap {
-    min-height: 240px;
+    min-height: 0;
   }
   .board-row {
     grid-template-columns: 42px 1fr auto;
