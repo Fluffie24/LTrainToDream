@@ -811,6 +811,19 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   .sum-main-grid {
     grid-template-columns: 1fr;
   }
+  .sum-card {
+    padding: 28px 16px 24px;
+  }
+  .sum-sub-grid {
+    gap: 8px;
+  }
+  .sum-sub-item {
+    min-width: 0;
+    padding: 12px 8px;
+  }
+  .sum-sub-item b {
+    font-size: clamp(13.5px, 3.8vw, 18px);
+  }
 }
 
 /* ---------- boards breakdown button & modal ---------- */
@@ -1075,8 +1088,15 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   border: 1px solid #edd7a8;
 }
 @media (max-width: 640px) {
+  .modal {
+    padding: 16px 10px;
+  }
   .boards-modal-box {
-    padding: 20px 14px 16px;
+    padding: 18px 14px 14px;
+    max-height: 80dvh;
+  }
+  .boards-modal-head {
+    padding-right: 26px;
   }
   .boards-stats-row {
     grid-template-columns: 1fr;
@@ -1359,6 +1379,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     </a>
   </div>
 </section>
+</main>
 
 <!-- ============ QR MODAL ============ -->
 <div id="qrModal" class="modal" onclick="this.style.display='none'">
@@ -1455,7 +1476,6 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <div class="boards-list-wrap" id="boardsListContainer"></div>
   </div>
 </div>
-</main>
 
 <footer>
   <p class="fl">L · GE2026</p>
