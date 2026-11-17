@@ -1376,7 +1376,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   <div class="sec-head reveal">
     <h2>Hall of ผู้ประสบภัย</h2>
     <p id="supportersNote">ขอขอบคุณทุกการสนับสนุน</p>
-    <div class="share-toolbar">
+    <div class="share-toolbar" style="display:none">
       <button type="button" class="btn-share-top" onclick="openRankingShareModal('top', 10)">📸 แชร์รูป Top 10</button>
       <button type="button" class="btn-share-top alt" onclick="openRankingShareModal('top', 20)">✨ แชร์รูป Top 20</button>
     </div>
@@ -1538,6 +1538,12 @@ const pad = n => String(n).padStart(2,'0');
 const supportersNote = document.getElementById('supportersNote');
 if (supportersNote) {
   supportersNote.innerHTML = CONFIG.donationDisclaimer || 'ขอขอบคุณทุกการสนับสนุน';
+}
+
+const isLocal = ['localhost', '127.0.0.1', ''].includes(location.hostname) || location.protocol === 'file:';
+const shareToolbar = document.querySelector('.share-toolbar');
+if (shareToolbar && isLocal) {
+  shareToolbar.style.display = 'flex';
 }
 
 const totalPeople = CONFIG.supportersList.length;
