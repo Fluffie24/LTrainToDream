@@ -674,6 +674,430 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     font-size: 11px;
   }
 }
+
+/* ---------- summary section ---------- */
+.sum-main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.sum-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(170deg, #ffffff 0%, #fff4f8 100%);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  padding: 34px 26px 28px;
+  text-align: center;
+  box-shadow: 0 18px 50px rgba(142, 29, 73, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.sum-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 56px rgba(142, 29, 73, 0.13);
+}
+.sum-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--rose), #f472b6);
+}
+.sum-card.token-card {
+  background: linear-gradient(170deg, #ffffff 0%, #fdf8ee 100%);
+  border-color: #f0dfbe;
+}
+.sum-card.token-card::before {
+  background: linear-gradient(90deg, var(--gold), #e7c26b);
+}
+.sum-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--soft);
+  color: var(--rose-deep);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.token-card .sum-pill {
+  background: #fbf2df;
+  color: #7c5612;
+  border-color: #edd7a8;
+}
+.sum-card .total-num {
+  font-size: clamp(34px, 4.6vw, 52px);
+  font-weight: 800;
+  color: var(--rose-deep);
+  line-height: 1.15;
+  margin: 16px 0 6px;
+  font-variant-numeric: tabular-nums;
+}
+.token-card .total-num {
+  color: #7c5612;
+}
+.sum-card .total-unit {
+  font-size: 0.42em;
+  font-weight: 700;
+  color: var(--rose);
+}
+.token-card .total-unit {
+  color: #b0822b;
+}
+.sum-sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+  width: 100%;
+}
+.sum-sub-item {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 15px 12px;
+  box-shadow: inset 0 -3px 0 rgba(210, 60, 109, 0.1);
+}
+.token-card .sum-sub-item {
+  border-color: #f0dfbe;
+  box-shadow: inset 0 -3px 0 rgba(201, 162, 75, 0.18);
+}
+.sum-sub-item span {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.sum-sub-item b {
+  display: block;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 800;
+  color: var(--rose-deep);
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.token-card .sum-sub-item b {
+  color: #7c5612;
+}
+.sum-rate-note {
+  display: inline-block;
+  margin-top: 14px;
+  background: #fbf2df;
+  color: #8c6218;
+  border: 1px dashed #d6b265;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.sum-rate-note.cash-note {
+  background: var(--soft);
+  color: var(--rose-deep);
+  border-color: #eab3c6;
+}
+@media (max-width: 768px) {
+  .sum-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- boards breakdown button & modal ---------- */
+.sum-action-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+.btn-boards {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(170deg, #ffffff 0%, #fff4f8 100%);
+  color: var(--rose-deep);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(142, 29, 73, 0.08), inset 0 -3px 0 rgba(210, 60, 109, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.btn-boards:hover {
+  transform: translateY(-3px);
+  border-color: #eab3c6;
+  background: linear-gradient(170deg, #ffffff 0%, #fdeaf1 100%);
+  box-shadow: 0 16px 36px rgba(142, 29, 73, 0.13), inset 0 -3px 0 rgba(210, 60, 109, 0.2);
+}
+.btn-boards .b-count-pill {
+  background: var(--soft);
+  color: var(--rose);
+  border: 1px solid var(--line);
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.btn-boards .b-arrow {
+  color: var(--rose);
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform 0.25s ease;
+}
+.btn-boards:hover .b-arrow {
+  transform: translateX(3px);
+}
+.boards-modal-box {
+  background: #fff;
+  padding: 24px 22px 20px;
+  border-radius: 26px;
+  max-width: 94%;
+  width: 640px;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(142, 29, 73, 0.25);
+  animation: pop 0.25s ease-out;
+}
+.boards-modal-head {
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.boards-modal-head h3 {
+  font-size: clamp(20px, 3vw, 25px);
+  color: var(--rose-deep);
+}
+.boards-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+.boards-stat-pill {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px 10px;
+  text-align: center;
+}
+.boards-stat-pill.gold {
+  background: #fdf8ee;
+  border-color: #f0dfbe;
+}
+.boards-stat-pill span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.boards-stat-pill b {
+  display: block;
+  font-size: 13.5px;
+  color: var(--rose-deep);
+  font-weight: 800;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.boards-stat-pill.gold b {
+  color: #7c5612;
+}
+.boards-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+.m-tab {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--rose-deep);
+  border-radius: 14px;
+  padding: 9px 12px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.m-tab:hover {
+  background: var(--soft);
+}
+.m-tab.active {
+  background: linear-gradient(135deg, var(--rose), #b02458);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 16px rgba(210, 60, 109, 0.25);
+}
+.boards-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 12px 0;
+}
+.boards-search {
+  flex: 1 1 200px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 999px;
+  padding: 8px 15px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.boards-search:focus {
+  border-color: var(--rose);
+  background: #fff;
+}
+.boards-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.b-tab {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--rose-deep);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.b-tab:hover {
+  background: var(--soft);
+}
+.b-tab.active {
+  background: var(--rose);
+  color: #fff;
+  border-color: var(--rose);
+}
+.bonus-note-banner {
+  background: #fdf8ee;
+  border: 1px dashed #d6b265;
+  color: #8c6218;
+  border-radius: 12px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.boards-list-wrap {
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  flex: 1;
+}
+.board-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 135px;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid var(--bg2);
+  font-size: 13.5px;
+}
+.board-row.head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg2);
+  border-top: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--rose-deep);
+}
+.board-row:not(.head):hover {
+  background: #fff9fb;
+}
+.board-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--rose-deep);
+  font-size: 12px;
+  font-weight: 700;
+}
+.board-name {
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  word-break: break-word;
+}
+.board-don {
+  text-align: right;
+  font-weight: 700;
+  color: var(--rose-deep);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bon-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.bon-badge.baht {
+  background: var(--soft);
+  color: var(--rose);
+}
+.bon-badge.token {
+  background: #fbf2df;
+  color: #8c6218;
+  border: 1px solid #edd7a8;
+}
+@media (max-width: 640px) {
+  .boards-modal-box {
+    padding: 20px 14px 16px;
+  }
+  .boards-stats-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .boards-stat-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 12px;
+  }
+  .m-tab {
+    font-size: 12px;
+    padding: 8px 8px;
+  }
+  .board-row {
+    grid-template-columns: 42px 1fr auto;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
 </style>
 
 <script type="application/ld+json">
@@ -761,6 +1185,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     <nav id="navMenu">
       <a href="#speech">สปีช GE6</a>
       <a href="#songs">เพลงที่แอลเซนเตอร์</a>
+      <a href="#summary">สรุปยอดทั้งหมด</a>
       <a href="#supporters">Hall of ผู้ประสบภัย</a>
     </nav>
   </div>
@@ -776,7 +1201,7 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
       <p class="hero-sub">Center เพลง Wataridoritachi ni Sora wa Mienai</p>
       <div class="hero-cta">
         <a class="btn btn-primary btn-full" href="#supporters">Hall of ผู้ประสบภัย ↓</a>
-        <button class="btn btn-ghost btn-half" onclick="document.getElementById('qrModal').style.display='flex'">QR Code โดเนท</button>
+        <button type="button" class="btn btn-ghost btn-half" onclick="openBoardsModal()">สรุปยอดโดเนท</button>
         <a class="btn btn-line btn-half" href="https://line.me/ti/g2/FBVCguipgNcVIkijYYzpney0QyGKM7v8mADIGA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener">เข้า OpenChat</a>
       </div>
       <p class="hint"></p>
@@ -830,6 +1255,61 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
   </a>
 </section>
 
+
+<!-- ============ SUMMARY ============ -->
+<section id="summary">
+  <div class="sec-head reveal">
+    <h2>สรุปยอดโดเนททั้งหมด GE6</h2>
+  </div>
+<div class="sum-main-grid reveal">
+    <div class="sum-card">
+      <div class="sum-pill">💖 รวมเงินทั้งหมด</div>
+      <div class="total-num">936,560.15 <span class="total-unit">บาท</span></div>
+      <div class="sum-sub-grid">
+        <div class="sum-sub-item">
+          <span>ยอดโดเนท</span>
+          <b>869,857.15 บาท</b>
+        </div>
+        <div class="sum-sub-item">
+          <span>ยอดทบ</span>
+          <b>66,703 บาท</b>
+        </div>
+        <div class="sum-sub-item" style="grid-column: 1 / -1;">
+          <span>📋 ที่มาของยอดเงิน</span>
+          <b>55 กระดาน · ยอดทบ 28 รายการ</b>
+        </div>
+      </div>
+      <div class="sum-rate-note cash-note">💖 จากผู้ร่วมโดเนท 283 คน · รวม 3,500 ครั้ง</div>
+    </div>
+
+    <div class="sum-card token-card">
+      <div class="sum-pill">🪙 รวม TOKENS ทั้งหมด</div>
+      <div class="total-num">29,596.52 <span class="total-unit">Tokens</span></div>
+      <div class="sum-sub-grid">
+        <div class="sum-sub-item">
+          <span>Token ที่ซื้อ</span>
+          <b>14,429 Tokens</b>
+        </div>
+        <div class="sum-sub-item">
+          <span>Token ทบ</span>
+          <b>13,333.52 Tokens</b>
+        </div>
+        <div class="sum-sub-item" style="grid-column: 1 / -1;">
+          <span>🎁 กองทุน Just fund for L (ยอดแยก)</span>
+          <b>1,834 Tokens</b>
+        </div>
+      </div>
+      <div class="sum-rate-note">✨ เฉลี่ยตก Token ละ 64.9082 บาท</div>
+    </div>
+  </div>
+<div class="sum-action-wrap reveal">
+    <button type="button" class="btn-boards" onclick="openBoardsModal()">
+      <span>📋 ดูยอดโดเนทรายกระดาน</span>
+      <span class="b-count-pill" id="boardCountBadge">55 กระดาน</span>
+      <span class="b-arrow">→</span>
+    </button>
+  </div>
+</section>
 
 <!-- ============ SUPPORTERS ============ -->
 <section id="supporters">
@@ -929,6 +1409,52 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
     </div>
   </div>
 </div>
+
+<!-- ============ BOARDS BREAKDOWN MODAL ============ -->
+<div id="boardsModal" class="modal" onclick="closeBoardsModal()">
+  <div class="boards-modal-box" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeBoardsModal()">&times;</span>
+    <div class="boards-modal-head">
+      <h3>📋 สรุปยอดโดเนท GE6 รายกระดาน</h3>
+      <div class="boards-stats-row">
+        <div class="boards-stat-pill">
+          <span>💖 ยอดโดเนท 55 กระดาน</span>
+          <b>869,857.15 บาท</b>
+        </div>
+        <div class="boards-stat-pill">
+          <span>✨ ยอดทบเงินสด</span>
+          <b>66,703 บาท</b>
+        </div>
+        <div class="boards-stat-pill gold">
+          <span>🪙 ยอดทบ Tokens</span>
+          <b>13,333.52 Tokens</b>
+        </div>
+      </div>
+      <div class="boards-mode-tabs">
+     <button type="button" class="m-tab active" id="tabModeBoards" onclick="switchBoardsTab('boards')">📋 ยอดรายกระดาน (55)</button>
+     <button type="button" class="m-tab" id="tabModeBonus" onclick="switchBoardsTab('bonus')">✨ รายการยอดทบ (38)</button>
+     <button type="button" class="m-tab" id="tabModeFund" onclick="switchBoardsTab('fund')">🎁 กองทุน (1)</button>
+   </div>
+    </div>
+
+    <div id="boardsSearchWrap" class="boards-filter-bar">
+      <input type="text" id="boardSearchInput" class="boards-search" placeholder="🔍 ค้นหาชื่อกระดาน..." oninput="renderBoardsList()">
+    </div>
+
+    <div id="bonusFilterWrap" style="display:none; margin-top:12px;">
+      <div class="bonus-note-banner">หมายเหตุ: รายการยอดทบด้านล่างไม่ได้เรียงตามลำดับกระดาน</div>
+      <div class="boards-filter-bar" style="margin-top:0;">
+        <div class="boards-tabs" id="bonusFilterTabs">
+          <button type="button" class="b-tab active" onclick="setBonusFilter('all', this)">ทั้งหมด (38)</button>
+          <button type="button" class="b-tab" onclick="setBonusFilter('baht', this)">ทบเงินสด (28)</button>
+          <button type="button" class="b-tab" onclick="setBonusFilter('token', this)">ทบ Tokens (10)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="boards-list-wrap" id="boardsListContainer"></div>
+  </div>
+</div>
 </main>
 
 <footer>
@@ -941,6 +1467,10 @@ footer .fl{font-family:'Mali';font-weight:700;color:var(--rose-deep);font-size:1
 <script>
 
 const fmt = n => n.toLocaleString('th-TH');
+const fmtBaht = n => Number(n || 0).toLocaleString('th-TH', {
+  minimumFractionDigits: Number(n || 0) % 1 === 0 ? 0 : 2,
+  maximumFractionDigits: 2
+});
 const pad = n => String(n).padStart(2,'0');
 
 
@@ -975,7 +1505,7 @@ document.getElementById('podium').innerHTML = order.map(idx => {
     </div>
     <div class="p-body">
       <h3>${escapeHTML(s[0])}</h3>
-      <div class="cnt" style="margin-bottom:0">รวม ${s[1]} ครั้ง</div>
+      <div class="cnt" style="margin-top:6px;margin-bottom:0">รวม ${s[1]} ครั้ง</div>
       <button type="button" class="btn-share-podium" onclick="openRankingShareModal('user', ${idx})">📸 แชร์อันดับ</button>
     </div>
   </div>`;
@@ -987,10 +1517,11 @@ document.getElementById('sTable').innerHTML =
     const idx = i + 3;
     return `<div class="s-row"><span class="no">${idx + 1}</span>
       <span class="nm"><img src="Donators/${safeFile(r[0])}.jpg" onerror="this.outerHTML='<em>🐈‍⬛</em>'"> ${escapeHTML(r[0])}</span>
-      <span class="ct" style="line-height:1.2;font-size:14px;font-weight:700">${r[1]} ครั้ง</span>
+      <span class="ct">${r[1]} ครั้ง</span>
       <span class="act"><button type="button" class="btn-share-row" onclick="openRankingShareModal('user', ${idx})">📸 แชร์</button></span>
     </div>`;
   }).join('');
+
 
 /* ---- SNS Share Card Generator ---- */
 let currentShareBlob = null;
@@ -1201,7 +1732,7 @@ function drawCardFooter(ctx, W, footY, footH, favImg) {
   ctx.textAlign = 'left';
   ctx.fillStyle = '#ffffff';
   ctx.font = `700 ${footH >= 140 ? 34 : 30}px "Mali", cursive`;
-  ctx.fillText('สู้ไปด้วยกันเพื่อความฝันของแอล! 🩷🐈‍⬛', favX + favR + 28, cy - 8);
+  ctx.fillText('ขอบคุณที่ช่วยพาแอลมาถึงอันดับที่ 13! 🩷🐈‍⬛', favX + favR + 28, cy - 8);
 
   ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
   ctx.font = `600 ${footH >= 140 ? 22 : 19}px "Prompt", sans-serif`;
@@ -1225,7 +1756,7 @@ async function generateUserRankCanvas(idx) {
 
   const [avatarImg, favImg, posterImg] = await Promise.all([
     loadShareImage(`Donators/${safeFile(name)}.jpg`),
-    loadShareImage('Pics/faviconi.png'),
+    loadShareImage('Pics/speechc.png'),
     loadShareImage('Pics/poster.jpg')
   ]);
 
@@ -1326,8 +1857,8 @@ async function generateUserRankCanvas(idx) {
 
   const statY = 855, statH = 185;
   [
-    { x: 135, label: '🏆 อันดับผู้สนับสนุน', val: `#${rank} / ${totalSupporters}` },
-    { x: 560, label: '💖 จำนวนครั้งที่โดเนท', val: `${count} ครั้ง` }
+    { x: 135, label: '🏆 อันดับผู้สนับสนุน', val: `#${rank} / ${totalSupporters}`, size: 46 },
+    { x: 560, label: '💖 จำนวนครั้งที่โดเนท', val: `${count} ครั้ง`, size: 46 }
   ].forEach(box => {
     const bgBox = ctx.createLinearGradient(box.x, statY, box.x, statY + statH);
     bgBox.addColorStop(0, '#fff9fb');
@@ -1344,8 +1875,8 @@ async function generateUserRankCanvas(idx) {
     drawCenteredText(ctx, box.label, box.x + 192.5, statY + 56);
 
     ctx.fillStyle = '#d23c6d';
-    ctx.font = '800 48px "Prompt", sans-serif';
-    drawCenteredText(ctx, box.val, box.x + 192.5, statY + 132);
+    ctx.font = `800 ${box.size}px "Prompt", sans-serif`;
+    drawCenteredText(ctx, box.val, box.x + 192.5, statY + 130);
   });
 
   drawCardFooter(ctx, W, 1175, 175, favImg);
@@ -1353,12 +1884,13 @@ async function generateUserRankCanvas(idx) {
   return canvas;
 }
 
+
 async function generateTopListCanvas(limit) {
   if (document.fonts && document.fonts.ready) await document.fonts.ready;
   const list = CONFIG.supportersList.slice(0, limit);
 
   const [favImg, posterImg, ...avatars] = await Promise.all([
-    loadShareImage('Pics/faviconi.png'),
+    loadShareImage('Pics/speechc.png'),
     loadShareImage('Pics/poster.jpg'),
     ...list.map(item => loadShareImage(`Donators/${safeFile(item[0])}.jpg`))
   ]);
@@ -1520,177 +2052,6 @@ async function generateTopListCanvas(limit) {
   return canvas;
 }
 
-async function generateTopListCanvas(limit) {
-  if (document.fonts && document.fonts.ready) await document.fonts.ready;
-  const list = CONFIG.supportersList.slice(0, limit);
-
-  const [favImg, posterImg, ...avatars] = await Promise.all([
-    loadShareImage('Pics/faviconi.png'),
-    loadShareImage('Pics/poster.jpg'),
-    ...list.map(item => loadShareImage(`Donators/${safeFile(item[0])}.jpg`))
-  ]);
-
-  const W = 1080, H = 1440;
-  const canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
-  const ctx = canvas.getContext('2d');
-
-  drawCardBackground(ctx, W, H, posterImg);
-  drawCardHeader(ctx, W, `Hall of ผู้ประสบภัย · TOP ${limit}`);
-
-  const podiumOrder = [1, 0, 2]; 
-  const isTop10 = limit <= 10;
-  const cardWidths = [278, 312, 278];
-  const cardX = [75, 384, 727];
-  const cardY = isTop10 ? [306, 284, 306] : [300, 280, 300];
-  const cardH = isTop10 ? [285, 307, 285] : [262, 282, 262];
-
-  podiumOrder.forEach((idx, pos) => {
-    if (!list[idx]) return;
-    const rank = idx + 1;
-    const [name, count] = list[idx];
-    const x = cardX[pos], y = cardY[pos], w = cardWidths[pos], h = cardH[pos];
-    const [c1, c2, c3] = getRankColors(rank);
-
-    ctx.save();
-    ctx.shadowColor = 'rgba(142, 29, 73, 0.14)';
-    ctx.shadowBlur = 22;
-    ctx.shadowOffsetY = 8;
-    drawRoundedRect(ctx, x, y, w, h, 28);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
-    ctx.fill();
-    ctx.restore();
-
-    drawRoundedRect(ctx, x, y, w, h, 28);
-    ctx.strokeStyle = c2;
-    ctx.lineWidth = rank === 1 ? 4 : 2.5;
-    ctx.stroke();
-
-    const avaR = rank === 1 ? (isTop10 ? 64 : 58) : (isTop10 ? 54 : 49);
-    const cx = x + w / 2;
-    const cy = y + (rank === 1 ? (isTop10 ? 94 : 86) : (isTop10 ? 84 : 78));
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, avaR + 6, 0, Math.PI * 2);
-    const rg = ctx.createLinearGradient(cx - avaR, cy - avaR, cx + avaR, cy + avaR);
-    rg.addColorStop(0, c1);
-    rg.addColorStop(1, c2);
-    ctx.fillStyle = rg;
-    ctx.fill();
-
-    drawCircularImage(ctx, avatars[idx], cx, cy, avaR);
-
-    ctx.beginPath();
-    ctx.arc(cx, cy + avaR - 2, 19, 0, Math.PI * 2);
-    ctx.fillStyle = c3;
-    ctx.fill();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = '#ffffff';
-    ctx.stroke();
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '800 18px "Prompt", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(String(rank), cx, cy + avaR + 4);
-
-    ctx.fillStyle = '#5c1a33';
-    ctx.font = `700 ${rank === 1 ? 25 : 22}px "Mali", "Prompt", sans-serif`;
-    ctx.fillText(fitCanvasText(ctx, name, w - 28), cx, y + h - 58);
-
-    drawRoundedRect(ctx, cx - 74, y + h - 44, 148, 32, 16);
-    ctx.fillStyle = '#fdeef3';
-    ctx.fill();
-
-    ctx.fillStyle = '#d23c6d';
-    ctx.font = '800 18px "Prompt", sans-serif';
-    ctx.fillText(`รวม ${count} ครั้ง`, cx, y + h - 22);
-  });
-
-  const rest = list.slice(3);
-
-  if (isTop10) {
-    const startY = 616, rowH = 74, gap = 11, rowX = 75, rowW = W - 150;
-    rest.forEach((item, i) => {
-      const idx = i + 3;
-      const rank = idx + 1;
-      const [name, count] = item;
-      const y = startY + i * (rowH + gap);
-
-      drawRoundedRect(ctx, rowX, y, rowW, rowH, 20);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
-      ctx.fill();
-      ctx.strokeStyle = '#f5d0de';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      drawRoundedRect(ctx, rowX + 16, y + 15, 52, 44, 13);
-      ctx.fillStyle = '#fdeef3';
-      ctx.fill();
-      ctx.fillStyle = '#8e1d49';
-      ctx.font = '800 22px "Prompt", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(String(rank), rowX + 42, y + 45);
-
-      drawCircularImage(ctx, avatars[idx], rowX + 112, y + rowH / 2, 27);
-
-      ctx.fillStyle = '#5c1a33';
-      ctx.font = '700 25px "Prompt", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(fitCanvasText(ctx, name, 540), rowX + 158, y + 46);
-
-      drawRoundedRect(ctx, rowX + rowW - 165, y + 17, 145, 40, 20);
-      ctx.fillStyle = '#fff5f8';
-      ctx.fill();
-      ctx.fillStyle = '#d23c6d';
-      ctx.font = '800 23px "Prompt", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${count} ครั้ง`, rowX + rowW - 92, y + 45);
-    });
-  } else {
-    const startY = 586, colW = 452, rowH = 60, gapY = 9, gapX = 26;
-    rest.forEach((item, i) => {
-      const idx = i + 3;
-      const rank = idx + 1;
-      const [name, count] = item;
-      const col = i < 9 ? 0 : 1;
-      const row = i < 9 ? i : i - 9;
-      const x = 75 + col * (colW + gapX);
-      const y = startY + row * (rowH + gapY);
-
-      drawRoundedRect(ctx, x, y, colW, rowH, 16);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
-      ctx.fill();
-      ctx.strokeStyle = '#f5d0de';
-      ctx.lineWidth = 1.8;
-      ctx.stroke();
-
-      drawRoundedRect(ctx, x + 10, y + 11, 42, 38, 10);
-      ctx.fillStyle = '#fdeef3';
-      ctx.fill();
-      ctx.fillStyle = '#8e1d49';
-      ctx.font = '800 19px "Prompt", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(String(rank), x + 31, y + 37);
-
-      drawCircularImage(ctx, avatars[idx], x + 84, y + rowH / 2, 22);
-
-      ctx.fillStyle = '#5c1a33';
-      ctx.font = '700 20px "Prompt", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(fitCanvasText(ctx, name, 210), x + 118, y + 37);
-
-      ctx.fillStyle = '#d23c6d';
-      ctx.font = '800 19px "Prompt", sans-serif';
-      ctx.textAlign = 'right';
-      ctx.fillText(`${count} ครั้ง`, x + colW - 16, y + 37);
-    });
-  }
-
-  drawCardFooter(ctx, W, 1236, 128, favImg);
-
-  return canvas;
-}
 
 async function openRankingShareModal(mode, value) {
   const modal = document.getElementById('shareModal');
@@ -1792,7 +2153,8 @@ const bgmIcon = document.getElementById('bgmIcon');
 bgMusic.volume = 0.1; 
 
 bgmContainer.addEventListener('click', (e) => {
-  e.stopPropagation(); 
+  e.stopPropagation();
+  document.body.removeEventListener('click', autoPlayBgm);
   if (bgMusic.paused) {
     bgMusic.play();
     bgmVinyl.style.animationPlayState = 'running';
@@ -1804,14 +2166,18 @@ bgmContainer.addEventListener('click', (e) => {
   }
 });
 
-document.body.addEventListener('click', () => {
+function autoPlayBgm(e) {
+  if (e.target.closest('a[target="_blank"], a[href^="http"]')) return;
+  document.body.removeEventListener('click', autoPlayBgm);
   if (bgMusic.paused) {
     bgMusic.play().then(() => {
       bgmVinyl.style.animationPlayState = 'running';
       bgmIcon.textContent = '❚❚';
-    }).catch(e => console.log("Audio blocked:", e));
+    }).catch(err => console.log("Audio blocked:", err));
   }
-}, { once: true });
+}
+
+document.body.addEventListener('click', autoPlayBgm);
 
 const openChatBtn = document.querySelector('.btn-line'); 
 
@@ -1830,6 +2196,126 @@ function checkBgmVisibility() {
 window.addEventListener('scroll', checkBgmVisibility, { passive: true });
 window.addEventListener('resize', checkBgmVisibility, { passive: true });
 checkBgmVisibility();
+
+/* ---- boards & bonus breakdown modal ---- */
+let currentModalTab = 'boards';
+let currentBonusFilter = 'all';
+
+const boardCountBadge = document.getElementById('boardCountBadge');
+if (boardCountBadge && Array.isArray(CONFIG.boardsList)) {
+  boardCountBadge.textContent = `${CONFIG.boardsList.length} กระดาน`;
+}
+
+function openBoardsModal() {
+  const modal = document.getElementById('boardsModal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  renderBoardsModalContent();
+}
+
+function closeBoardsModal() {
+  const modal = document.getElementById('boardsModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function switchBoardsTab(tab) {
+  currentModalTab = tab;
+  document.getElementById('tabModeBoards')?.classList.toggle('active', tab === 'boards');
+  document.getElementById('tabModeBonus')?.classList.toggle('active', tab === 'bonus');
+  document.getElementById('tabModeFund')?.classList.toggle('active', tab === 'fund');
+  document.getElementById('boardsSearchWrap').style.display = tab === 'boards' ? 'flex' : 'none';
+  document.getElementById('bonusFilterWrap').style.display = tab === 'bonus' ? 'block' : 'none';
+  renderBoardsModalContent();
+}
+
+function setBonusFilter(filter, btnEl) {
+  currentBonusFilter = filter;
+  document.querySelectorAll('#bonusFilterTabs .b-tab').forEach(btn => btn.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  renderBoardsModalContent();
+}
+
+function renderBoardsList() {
+  renderBoardsModalContent();
+}
+
+function renderBoardsModalContent() {
+  const container = document.getElementById('boardsListContainer');
+  if (!container) return;
+
+  if (currentModalTab === 'boards') {
+    if (!Array.isArray(CONFIG.boardsList)) return;
+    const q = (document.getElementById('boardSearchInput')?.value || '').trim().toLowerCase();
+    const filtered = CONFIG.boardsList.filter(([, name]) => !q || name.toLowerCase().includes(q));
+
+    const headHTML = `<div class="board-row head">
+      <span>#</span>
+      <span>ชื่อกระดาน</span>
+      <span style="text-align:right">ยอดโดเนท</span>
+    </div>`;
+
+    if (!filtered.length) {
+      container.innerHTML = headHTML + `<div style="padding:32px 16px;text-align:center;color:var(--muted);font-size:13.5px;">ไม่พบกระดานที่ค้นหา 🐈‍⬛</div>`;
+      return;
+    }
+
+    container.innerHTML = headHTML + filtered.map(([no, name, donate]) => `
+      <div class="board-row">
+        <span><span class="board-no">${no}</span></span>
+        <span class="board-name">${escapeHTML(name)}</span>
+        <span class="board-don">${fmtBaht(donate)} บาท</span>
+      </div>
+    `).join('');
+  } else if (currentModalTab === 'bonus') {
+    if (!Array.isArray(CONFIG.bonusList)) return;
+    const filtered = CONFIG.bonusList
+      .map((item, idx) => ({ idx: idx + 1, type: item[0], amount: item[1] }))
+      .filter(item => currentBonusFilter === 'all' || item.type === currentBonusFilter);
+
+    const headHTML = `<div class="board-row head">
+      <span>ลำดับ</span>
+      <span>ประเภทการทบ</span>
+      <span style="text-align:right">จำนวนยอดทบ</span>
+    </div>`;
+
+    container.innerHTML = headHTML + filtered.map(item => {
+      const isBaht = item.type === 'baht';
+      const label = isBaht ? '💖 ทบเงินสด' : '🪙 ทบ Tokens';
+      const badge = isBaht
+        ? `<span class="bon-badge baht">+${fmtBaht(item.amount)} บาท</span>`
+        : `<span class="bon-badge token">+${fmtBaht(item.amount)} Tokens</span>`;
+      return `<div class="board-row">
+        <span><span class="board-no">${item.idx}</span></span>
+        <span class="board-name">${label}</span>
+        <span class="board-don">${badge}</span>
+      </div>`;
+    }).join('');
+  } else if (currentModalTab === 'fund') {
+    const funds = Array.isArray(CONFIG.specialFundsList) ? CONFIG.specialFundsList : [];
+    const headHTML = `<div class="board-row head">
+      <span>#</span>
+      <span>รายการกองทุน (ไม่รวมยอดกระดาน/ยอดทบ)</span>
+      <span style="text-align:right">จำนวน Tokens</span>
+    </div>`;
+
+    container.innerHTML = headHTML + funds.map(([name, tokens], idx) => `
+      <div class="board-row">
+        <span><span class="board-no">${idx + 1}</span></span>
+        <span class="board-name">🎁 ${escapeHTML(name)}</span>
+        <span class="board-don"><span class="bon-badge token">+${fmtBaht(tokens)} Tokens</span></span>
+      </div>
+    `).join('');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeBoardsModal();
+    closeShareModal();
+    const qr = document.getElementById('qrModal');
+    if (qr) qr.style.display = 'none';
+  }
+});
 </script>
 </body>
 </html>
